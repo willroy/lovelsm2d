@@ -1,0 +1,6 @@
+[
+	{
+		"trigger": "click test-node",
+		"event": "test-node-trigger"
+	}
+]

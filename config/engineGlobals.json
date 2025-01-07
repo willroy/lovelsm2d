@@ -1,0 +1,15 @@
+{
+	"windowSize": { "w": 1300, "h": 1000 },
+	"windowBackColour": { "r": 1, "g": 1, "b": 1 },
+	"fontMain": { "size": 20 },
+	"cursorArrow": { "path": "assets/cursorArrow.png", "w": 0, "h": 0 },
+	"cursorPoint": { "path": "assets/cursorPoint.png", "w": 0, "h": 0 },
+	"cursorPointInteract": { "path": "assets/cursorPointInteract.png", "w": 0, "h": 0 },
+	"assetsPath": "assets",
+	"dataPath": "config",
+	"debugEnabled": true,
+	"debugFont": { "size": 20 },
+	"debugWindowPadding": {"w": 8, "h": 5},
+	"debugWindowColor": {"r": 1, "g": 1, "b": 1, "a": 0.5},
+	"debugNodeColor": {"r": 1, "g": 1, "b": 1, "a": 0.5}
+}

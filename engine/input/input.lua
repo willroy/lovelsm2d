@@ -22,13 +22,13 @@ function Input:update(dt)
 				self.nodes_hovered[#self.nodes_hovered+1] = node
 				if node.interactable then
 					self.interactable_nodes_hovered[#self.interactable_nodes_hovered+1] = node
-					love.mouse.setCursor(helper:getCursor(globals.engineGlobals.cursorPoint))
+					love.mouse.setCursor(helper:getCursor(globals.config.cursorPoint))
 				end
 			end
 		end
 	end
 
-	if #self.interactable_nodes_hovered == 0 then love.mouse.setCursor(helper:getCursor(globals.engineGlobals.cursorArrow)) end
+	if #self.interactable_nodes_hovered == 0 then love.mouse.setCursor(helper:getCursor(globals.config.cursorArrow)) end
 end
 
 function Input:mousepressed(x, y, button, istouch)
@@ -39,14 +39,14 @@ function Input:mousepressed(x, y, button, istouch)
 				self.nodes_clicked[#self.nodes_clicked+1] = node
 				events:trigger_nodeClick(node)
 				events.triggered = true
-				love.mouse.setCursor(helper:getCursor(globals.engineGlobals.cursorPointInteract))
+				love.mouse.setCursor(helper:getCursor(globals.config.cursorPointInteract))
 			end
 		end
 	end
 end
 
 function Input:mousereleased(x, y, button, istouch)
-	if #self.interactable_nodes_hovered > 0 then love.mouse.setCursor(helper:getCursor(globals.engineGlobals.cursorPoint)) end
+	if #self.interactable_nodes_hovered > 0 then love.mouse.setCursor(helper:getCursor(globals.config.cursorPoint)) end
 	self.nodes_clicked = {}
 	events.triggered = false
 end

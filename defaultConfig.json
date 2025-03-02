@@ -6,7 +6,7 @@
 	"cursorPoint": { "path": "assets/cursorPoint.png", "w": 0, "h": 0 },
 	"cursorPointInteract": { "path": "assets/cursorPointInteract.png", "w": 0, "h": 0 },
 	"assetsPath": "assets",
-	"dataPath": "config",
+	"dataPath": "",
 	"debugEnabled": true,
 	"debugFont": { "size": 20 },
 	"debugWindowPadding": {"w": 8, "h": 5},

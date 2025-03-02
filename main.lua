@@ -1,8 +1,12 @@
-require("engine/engine")
+require("lovelsm2d/engine/engine")
+
+Lovelsm2d = Object:extend()
 
 engine = Engine
 
-function love.load()
+function Lovelsm2d:init()
+	io.stdout:setvbuf("no")
+
 	local dataPath = "config"
 	engine:init(dataPath)
 
@@ -10,36 +14,36 @@ function love.load()
 	engine:loadNode("test-node-2")
 end
 
-function love.update(dt)
+function Lovelsm2d:update(dt)
 	engine:update(dt)
 end
 
-function love.draw()
+function Lovelsm2d:draw()
 	engine:draw()
 	engine:postDraw()
 end
 
-function love.mousepressed(x, y, button, istouch)
+function Lovelsm2d:mousepressed(x, y, button, istouch)
 	engine:mousepressed(x, y, button, istouch)
 end
 
-function love.mousereleased(x, y, button, istouch)
+function Lovelsm2d:mousereleased(x, y, button, istouch)
 	engine:mousereleased(x, y, button, istouch)
 end
 
-function love.keypressed(key, code)
+function Lovelsm2d:keypressed(key, code)
 	engine:keypressed(key, code)
 end
 
-function love.keyreleased(key)
+function Lovelsm2d:keyreleased(key)
 	engine:keyreleased(key)
 end
 
-function love.wheelmoved(x, y)
+function Lovelsm2d:wheelmoved(x, y)
 	engine:wheelmoved(x, y)
 end
 
-function love.quit()
+function Lovelsm2d:quit()
 	engine:quit()
 	return false
 end

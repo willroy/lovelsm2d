@@ -1,8 +1,12 @@
 Events = Object:extend()
 
 function Events:init()
-	self.eventTriggers = data:readFile(globals.engineGlobals.dataPath.."/eventTriggers.json")
-	self.events = data:readFile(globals.engineGlobals.dataPath.."/events.json")
+	local eventTriggersPath = globals.config.dataPath.."/eventTriggers.json"
+	local eventsPath = globals.config.dataPath.."/events.json"
+
+	self.eventTriggers = data:readFile(eventTriggersPath)
+	self.events = data:readFile(eventsPath)
+	self.events = data:readFile(globals.config.dataPath.."/events.json")
 	self.triggered = false
 	self.running = false
 
@@ -16,7 +20,7 @@ function Events:trigger_nodeClick(node)
 		if helper:mysplit(self.eventTriggers[e].trigger, " ")[1] == "click" then
 			if helper:mysplit(self.eventTriggers[e].trigger, " ")[2] == node.handle then
 				self.running = true
-				local tasks = data:readKeyInFile(globals.engineGlobals.dataPath.."/events.json", self.eventTriggers[e].event)
+				local tasks = data:readKeyInFile(globals.config.dataPath.."/events.json", self.eventTriggers[e].event)
 				for t = 1, #tasks do
 					if helper:mysplit(tasks[t]," ")[1] == "dialog" then 
 						self.tasks[t] = {task = tasks[t], initialized = false, continue = false}

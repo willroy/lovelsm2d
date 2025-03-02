@@ -1,18 +1,18 @@
-require("engine/nodes/object")
-require("engine/nodes/node")
-require("engine/nodes/image")
-require("engine/nodes/animation")
+require("lovelsm2d/engine/nodes/object")
+require("lovelsm2d/engine/nodes/node")
+require("lovelsm2d/engine/nodes/image")
+require("lovelsm2d/engine/nodes/animation")
 
-require("engine/data/data")
-require("engine/data/globals")
+require("lovelsm2d/engine/data/data")
+require("lovelsm2d/engine/data/globals")
 
-require("engine/input/events")
-require("engine/input/input")
+require("lovelsm2d/engine/input/events")
+require("lovelsm2d/engine/input/input")
 
-require("engine/test/debugInfo")
-require("engine/test/test")
+require("lovelsm2d/engine/test/debugInfo")
+require("lovelsm2d/engine/test/test")
 
-require("engine/util/helper")
+require("lovelsm2d/engine/util/helper")
 
 Engine = Object:extend()
 
@@ -24,8 +24,6 @@ events = nil
 debugInfo = nil
 
 function Engine:init(dataPath)
-	io.stdout:setvbuf("no")
-
 	data = Data()
 	helper = Helper()
 	globals = Globals(dataPath)
@@ -34,12 +32,12 @@ function Engine:init(dataPath)
 	debugInfo = DebugInfo()
 
 	love.window.setTitle("template-love2d")
-	love.window.setMode(globals.engineGlobals.windowSize.w, globals.engineGlobals.windowSize.h, {vsync=1})
+	love.window.setMode(globals.config.windowSize.w, globals.config.windowSize.h, {vsync=1})
 
-	love.graphics.setBackgroundColor(globals.engineGlobals.windowBackColour.r, globals.engineGlobals.windowBackColour.g, globals.engineGlobals.windowBackColour.b)
-	love.graphics.setFont(helper:getFont(globals.engineGlobals.fontMain))
+	love.graphics.setBackgroundColor(globals.config.windowBackColour.r, globals.config.windowBackColour.g, globals.config.windowBackColour.b)
+	love.graphics.setFont(helper:getFont(globals.config.fontMain))
 	love.graphics.setDefaultFilter("linear", "linear", 1)
-	love.mouse.setCursor(helper:getCursor(globals.engineGlobals.cursorArrow))
+	love.mouse.setCursor(helper:getCursor(globals.config.cursorArrow))
 
 	self:loadNodesFromJSONFile()
 end
@@ -128,7 +126,9 @@ function Engine:loadNodesFromJSONFile()
 	self.nodes = {}
 	self.loadedNodes = {}
 
-	local data = data:readFile(globals.engineGlobals.dataPath.."/nodes.json")
+	local nodeDataPath = globals.config.dataPath.."/nodes.json"
+
+	local data = data:readFile(nodeDataPath)
 	for k, v in pairs(data) do
 		self.nodes[#self.nodes+1] = Node(v.handle,{x=v.x,y=v.y,w=v.w,h=v.h})
 		local node = self.nodes[#self.nodes]

@@ -1,12 +1,12 @@
 DebugInfo = Object:extend()
 
 function DebugInfo:init()
-	self.debugEnabled = globals.engineGlobals.debugEnabled
+	self.debugEnabled = globals.config.debugEnabled
 	self.pos = {x = globals.trackers.mousePos.x-120, y = globals.trackers.mousePos.y-30}
 	self.line = {last = 0, current = 0}
 	self.width = {last = 0, current = 0}
-	self.padding = globals.engineGlobals.debugWindowPadding
-	self.color = globals.engineGlobals.debugWindowColor
+	self.padding = globals.config.debugWindowPadding
+	self.color = globals.config.debugWindowColor
 end
 
 function DebugInfo:update(dt)
@@ -50,7 +50,7 @@ end
 function DebugInfo:drawNode()
 	for n = 1, #engine.loadedNodes do
 		local node = engine.loadedNodes[n]
-		local color = globals.engineGlobals.debugNodeColor
+		local color = globals.config.debugNodeColor
 		love.graphics.setColor(color.r, color.g, color.b, color.a)
 		love.graphics.setLineWidth(2)
 		love.graphics.rectangle("line", node.transform.x, node.transform.y, node.transform.w, node.transform.h)
@@ -61,9 +61,9 @@ end
 function DebugInfo:print(text)
 
 	love.graphics.setColor(0,0,0)
-	love.graphics.print(text, helper:getFont(globals.engineGlobals.debugFont), self.pos.x, self.pos.y-(self.line.current*30))
+	love.graphics.print(text, helper:getFont(globals.config.debugFont), self.pos.x, self.pos.y-(self.line.current*30))
 	love.graphics.setColor(1,1,1)
 
-	if helper:getFont(globals.engineGlobals.debugFont):getWidth(text) > self.width.current then self.width.current = helper:getFont(globals.engineGlobals.debugFont):getWidth(text) end
+	if helper:getFont(globals.config.debugFont):getWidth(text) > self.width.current then self.width.current = helper:getFont(globals.config.debugFont):getWidth(text) end
 	self.line.current = self.line.current + 1
 end

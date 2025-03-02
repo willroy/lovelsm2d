@@ -3,8 +3,11 @@ local json = require('cjson')
 Data = Object:extend()
 
 function Data:fileExists(path)
-   local file = io.open(path, "r")
-   if file ~= nil then io.close(f) return true else return false end
+	local readPath = ""
+	if path:find("^/") then readPath = love.filesystem.getWorkingDirectory()..path
+	else readPath = love.filesystem.getWorkingDirectory().."/"..path end
+   local file = io.open(readPath, "r")
+   if file ~= nil then io.close(file) return true else return false end
 	return data
 end
 

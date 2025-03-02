@@ -1,18 +1,18 @@
-require("lovelsm2d/engine/nodes/object")
-require("lovelsm2d/engine/nodes/node")
-require("lovelsm2d/engine/nodes/image")
-require("lovelsm2d/engine/nodes/animation")
+require("lovelsm2d/nodes/object")
+require("lovelsm2d/nodes/node")
+require("lovelsm2d/nodes/image")
+require("lovelsm2d/nodes/animation")
 
-require("lovelsm2d/engine/data/data")
-require("lovelsm2d/engine/data/globals")
+require("lovelsm2d/data/data")
+require("lovelsm2d/data/globals")
 
-require("lovelsm2d/engine/input/events")
-require("lovelsm2d/engine/input/input")
+require("lovelsm2d/input/events")
+require("lovelsm2d/input/input")
 
-require("lovelsm2d/engine/test/debugInfo")
-require("lovelsm2d/engine/test/test")
+require("lovelsm2d/test/debugInfo")
+require("lovelsm2d/test/test")
 
-require("lovelsm2d/engine/util/helper")
+require("lovelsm2d/util/helper")
 
 Engine = Object:extend()
 

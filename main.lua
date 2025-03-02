@@ -1,4 +1,4 @@
-require("lovelsm2d/engine/engine")
+require("lovelsm2d/engine")
 
 Lovelsm2d = Object:extend()
 
@@ -7,7 +7,7 @@ engine = Engine
 function Lovelsm2d:init()
 	io.stdout:setvbuf("no")
 
-	local dataPath = "config"
+	local dataPath = ""
 	engine:init(dataPath)
 
 	engine:loadNode("test-node")

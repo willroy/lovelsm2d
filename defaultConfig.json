@@ -7,7 +7,7 @@
 	"cursorPointInteract": { "path": "assets/cursorPointInteract.png", "w": 0, "h": 0 },
 	"assetsPath": "assets",
 	"dataPath": "",
-	"debugEnabled": true,
+	"debugEnabled": false,
 	"debugFont": { "size": 20 },
 	"debugWindowPadding": {"w": 8, "h": 5},
 	"debugWindowColor": {"r": 1, "g": 1, "b": 1, "a": 0.5},

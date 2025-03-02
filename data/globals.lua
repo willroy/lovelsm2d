@@ -1,7 +1,7 @@
 Globals = Object:extend()
 
 function Globals:init(dataPath)
-	local globalsPath = dataPath.."/globals.json"
+	local globalsPath = dataPath.."/config.json"
 	local keybindsPath = dataPath.."/keybinds.json"
 
 	if data:fileExists(globalsPath) == false then globalsPath = "lovelsm2d/defaultConfig.json" end

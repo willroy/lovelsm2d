@@ -2,6 +2,7 @@ require("lovelsm2d/nodes/object")
 require("lovelsm2d/nodes/node")
 require("lovelsm2d/nodes/image")
 require("lovelsm2d/nodes/animation")
+require("lovelsm2d/nodes/nodeManager")
 
 require("lovelsm2d/data/data")
 require("lovelsm2d/data/globals")
@@ -22,6 +23,7 @@ input = nil
 globals = nil
 events = nil
 debugInfo = nil
+nodeManager = nil
 
 function Engine:init(dataPath)
 	data = Data()
@@ -30,6 +32,7 @@ function Engine:init(dataPath)
 	input = Input()
 	events = Events()
 	debugInfo = DebugInfo()
+	nodeManager = NodeManager()
 
 	love.window.setTitle("template-love2d")
 	love.window.setMode(globals.config.windowSize.w, globals.config.windowSize.h, {vsync=1})
@@ -39,11 +42,11 @@ function Engine:init(dataPath)
 	love.graphics.setDefaultFilter("linear", "linear", 1)
 	love.mouse.setCursor(helper:getCursor(globals.config.cursorArrow))
 
-	self:loadNodesFromJSONFile()
+	nodeManager:loadNodesFromJSONFile()
 end
 
 function Engine:update(dt)
-	for n = 1, #self.loadedNodes do self.loadedNodes[n]:update(dt) end
+	for n = 1, #nodeManager.loadedNodes do nodeManager.loadedNodes[n]:update(dt) end
 
 	local mouseX, mouseY = love.mouse.getPosition()
 	globals.trackers.lastMousePos.x, globals.trackers.lastMousePos.y = globals.trackers.mousePos.x, globals.trackers.mousePos.y
@@ -60,7 +63,7 @@ function Engine:draw()
 	love.graphics.setColor(1,1,1,1)
 	love.graphics.push()
 
-	for n = 1, #self.loadedNodes do self.loadedNodes[n]:draw() end
+	for n = 1, #nodeManager.loadedNodes do nodeManager.loadedNodes[n]:draw() end
 	
 	debugInfo:draw()
 end
@@ -92,86 +95,4 @@ function Engine:postDraw()
 	love.graphics.setCanvas()
 	love.graphics.setColor(1,1,1,1)
 	love.graphics.draw(globals.canvas)
-end
-
-function Engine:addNode(node)
-end
-
-function Engine:removeNode(handle)
-end
-
-function Engine:loadNode(handle)
-	for n = 1, #self.nodes do
-		if self.nodes[n].handle ~= nil and self.nodes[n].handle == handle then
-			table.insert(self.loadedNodes, self.nodes[n])
-			return
-		end
-	end
-end
-
-function Engine:unloadNode(handle)
-	index = nil
-	for n = 1, #self.loadedNodes do
-		if self.loadedNodes[n].handle ~= nil and self.loadedNodes[n].handle == handle then
-			index = n
-		end
-	end
-	if index ~= nil then
-		self.loadedNodes[index] = nil
-		table.remove(self.loadedNodes, index)
-	end
-end
-
-function Engine:loadNodesFromJSONFile()
-	self.nodes = {}
-	self.loadedNodes = {}
-
-	local nodeDataPath = globals.config.dataPath.."/nodes.json"
-
-	local data = data:readFile(nodeDataPath)
-	for k, v in pairs(data) do
-		self.nodes[#self.nodes+1] = Node(v.handle,{x=v.x,y=v.y,w=v.w,h=v.h})
-		local node = self.nodes[#self.nodes]
-		node.interactable = v.interactable
-		node.zIndex = v.zIndex
-		node.groupHandle = v.groupHandle
-		if v.preload ~= nil then node.preload = v.preload end
-
-		if v.image ~= nil then
-			node:setImage(
-				v.image.path, 
-				{
-					x = v.image.scaleX,
-					y = v.image.scaleY
-				}
-			)
-		end
-		if v.animation ~= nil then
-			node:setAnimation(
-				v.animation.path, 
-				{
-					x = v.animation.scaleX,
-					y = v.animation.scaleY
-				},
-				{
-					frames = v.animation.data.frames,
-					cols = v.animation.data.cols,
-					rows = v.animation.data.rows,
-					speed = v.animation.data.speed
-				}
-			)
-		end
-	end
-
-	table.sort(self.nodes, function(a,b) return a.zIndex < b.zIndex end)
-
-	self:preLoadNodes()
-end
-
-function Engine:preLoadNodes()
-	for n = 1, #self.nodes do
-		if self.nodes[n].preload ~= nil and self.nodes[n].preload then
-			table.insert(self.loadedNodes, self.nodes[n])
-		end
-	end
 end

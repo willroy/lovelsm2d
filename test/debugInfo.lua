@@ -48,8 +48,8 @@ function DebugInfo:drawInfo()
 end
 
 function DebugInfo:drawNode()
-	for n = 1, #engine.loadedNodes do
-		local node = engine.loadedNodes[n]
+	for n = 1, #nodeManager.loadedNodes do
+		local node = nodeManager.loadedNodes[n]
 		local color = globals.config.debugNodeColor
 		love.graphics.setColor(color.r, color.g, color.b, color.a)
 		love.graphics.setLineWidth(2)

@@ -15,8 +15,8 @@ function Input:update(dt)
 	self.nodes_hovered = {}
 	self.interactable_nodes_hovered = {}
 
-	for n = 1, #engine.nodes do
-		local node = engine.nodes[n]
+	for n = 1, #engine.loadedNodes do
+		local node = engine.loadedNodes[n]
 		if globals.trackers.mousePos.x > node.transform.x and globals.trackers.mousePos.x < (node.transform.x+node.transform.w) then
 			if globals.trackers.mousePos.y > node.transform.y and globals.trackers.mousePos.y < (node.transform.y+node.transform.h) then
 				self.nodes_hovered[#self.nodes_hovered+1] = node
@@ -32,8 +32,8 @@ function Input:update(dt)
 end
 
 function Input:mousepressed(x, y, button, istouch)
-	for n = 1, #engine.nodes do
-		local node = engine.nodes[n]
+	for n = 1, #engine.loadedNodes do
+		local node = engine.loadedNodes[n]
 		if node.interactable and x > node.transform.x and x < (node.transform.x+node.transform.w) then
 			if y > node.transform.y and y < (node.transform.y+node.transform.h) then
 				self.nodes_clicked[#self.nodes_clicked+1] = node

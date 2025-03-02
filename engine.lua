@@ -134,6 +134,8 @@ function Engine:loadNodesFromJSONFile()
 		local node = self.nodes[#self.nodes]
 		node.interactable = v.interactable
 		node.zIndex = v.zIndex
+		node.groupHandle = v.groupHandle
+		if v.preload ~= nil then node.preload = v.preload end
 
 		if v.image ~= nil then
 			node:setImage(
@@ -162,4 +164,14 @@ function Engine:loadNodesFromJSONFile()
 	end
 
 	table.sort(self.nodes, function(a,b) return a.zIndex < b.zIndex end)
+
+	self:preLoadNodes()
+end
+
+function Engine:preLoadNodes()
+	for n = 1, #self.nodes do
+		if self.nodes[n].preload ~= nil and self.nodes[n].preload then
+			table.insert(self.loadedNodes, self.nodes[n])
+		end
+	end
 end

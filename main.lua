@@ -9,9 +9,6 @@ function Lovelsm2d:init()
 
 	local dataPath = ""
 	engine:init(dataPath)
-
-	engine:loadNode("test-node")
-	engine:loadNode("test-node-2")
 end
 
 function Lovelsm2d:update(dt)

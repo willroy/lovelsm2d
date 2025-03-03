@@ -15,6 +15,10 @@ function NodeManager:loadNodeGroup(groupHandle)
 	for n = 1, #self.nodes do
 		if self.nodes[n].groupHandle ~= nil and self.nodes[n].groupHandle == groupHandle then
 			table.insert(self.loadedNodes, self.nodes[n])
+			if self.nodes[n].type == "dialouge" then
+				input.dialougeMode = true
+				self.nodes[n]:loadDialouge()
+			end
 		end
 	end
 end
@@ -46,7 +50,7 @@ function NodeManager:loadNode(handle)
 end
 
 function NodeManager:unloadNode(handle)
-	index = nil
+	local index = nil
 	for n = 1, #self.loadedNodes do
 		if self.loadedNodes[n].handle ~= nil and self.loadedNodes[n].handle == handle then
 			index = n
@@ -77,12 +81,19 @@ function NodeManager:loadNodesFromJSONFile(path)
 		local handle = path
 		handle = string.sub(handle, 1, #handle-5)
 		handle = handle.."/"..v.handle:gsub("%/", "-")
-		self.nodes[#self.nodes+1] = Node(handle,{x=v.x,y=v.y,w=v.w,h=v.h})
+		if v.type ~= nil and v.type == "dialouge" then
+			self.nodes[#self.nodes+1] = DialougeNode(handle,{x=v.x,y=v.y,w=v.w,h=v.h})
+		else
+			self.nodes[#self.nodes+1] = Node(handle,{x=v.x,y=v.y,w=v.w,h=v.h})
+		end
 		local node = self.nodes[#self.nodes]
 		node.interactable = v.interactable
 		node.zIndex = v.zIndex
 		node.groupHandle = v.groupHandle
 		if v.preload ~= nil then node.preload = v.preload end
+		if v.dialouge ~= nil then node.dialougeHandle = v.dialouge end
+		if v.type ~= nil then node.type = v.type end
+		if v.type == nil then node.type = "node" end
 
 		if v.image ~= nil then
 			node:setImage(

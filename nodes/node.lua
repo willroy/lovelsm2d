@@ -8,6 +8,7 @@ function Node:init(handle, transform)
 	self.interactable = false
 	self.zIndex = 0
 	self.preload = false
+	self.type = ""
 end
 
 function Node:setImage(imagePath, scale)

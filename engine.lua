@@ -1,5 +1,6 @@
 require("lovelsm2d/nodes/object")
 require("lovelsm2d/nodes/node")
+require("lovelsm2d/nodes/dialougeNode")
 require("lovelsm2d/nodes/image")
 require("lovelsm2d/nodes/animation")
 

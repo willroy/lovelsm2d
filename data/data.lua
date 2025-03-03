@@ -35,7 +35,7 @@ function Data:readKeyInFile(path, key)
 	else readPath = love.filesystem.getWorkingDirectory().."/"..path end
 	local data = {}
 	local f = assert(io.open(readPath, "rb"))
-  local content = f:read("*all")
+  	local content = f:read("*all")
 	data = json.decode(content)
 	return data[key]
 end

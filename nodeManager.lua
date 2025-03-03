@@ -26,6 +26,10 @@ function NodeManager:unloadNodeGroup(groupHandle)
 			indexes[#indexes+1] = n
 		end
 	end
+
+	-- sort and reverse so that removing nodes from back to front
+	indexes = Helper:selectionSort(indexes, true)
+
 	for k, index in pairs(indexes) do
 		self.loadedNodes[index] = nil
 		table.remove(self.loadedNodes, index)
@@ -71,7 +75,7 @@ function NodeManager:loadNodesFromJSONFile(path)
 	local data = data:readFile(path)
 	for k, v in pairs(data) do
 		local handle = path
-		handle = string.sub(handle, 1, #handle-(#handle:match("([^/]+)$")+1))
+		handle = string.sub(handle, 1, #handle-5)
 		handle = handle.."/"..v.handle:gsub("%/", "-")
 		self.nodes[#self.nodes+1] = Node(handle,{x=v.x,y=v.y,w=v.w,h=v.h})
 		local node = self.nodes[#self.nodes]

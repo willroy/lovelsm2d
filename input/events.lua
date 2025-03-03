@@ -88,6 +88,9 @@ function Events:task_loadNode()
 	local handle = helper:mysplit(task, " ")[2]
 
 	nodeManager:loadNode(handle)
+
+	self.tasks[self.taski].initialized = true
+	self.tasks[self.taski].continue = true
 end
 
 function Events:task_loadNodeGroup()
@@ -95,6 +98,9 @@ function Events:task_loadNodeGroup()
 	local handle = helper:mysplit(task, " ")[2]
 
 	nodeManager:loadNodeGroup(handle)
+
+	self.tasks[self.taski].initialized = true
+	self.tasks[self.taski].continue = true
 end
 
 function Events:task_unloadNode()
@@ -102,6 +108,9 @@ function Events:task_unloadNode()
 	local handle = helper:mysplit(task, " ")[2]
 
 	nodeManager:unloadNode(handle)
+
+	self.tasks[self.taski].initialized = true
+	self.tasks[self.taski].continue = true
 end
 
 function Events:task_unloadNodeGroup()
@@ -109,4 +118,7 @@ function Events:task_unloadNodeGroup()
 	local handle = helper:mysplit(task, " ")[2]
 
 	nodeManager:unloadNodeGroup(handle)
+
+	self.tasks[self.taski].initialized = true
+	self.tasks[self.taski].continue = true
 end

@@ -39,3 +39,25 @@ end
 function Helper:getCursor(data)
   return love.mouse.newCursor(data.path, data.w, data.h)
 end
+
+function Helper:selectionSort(tableToSort, reverse)
+  local reverse = reverse or false
+  local tableSorted = {}
+  for _,v in pairs(tableToSort) do 
+    table.insert(tableSorted, v)  
+  end
+  
+  if reverse then
+    local function reverseSort(a, b)
+      return a > b
+    end
+
+    table.sort(tableSorted, reverseSort)
+  
+    return tableSorted
+  end
+
+  table.sort(tableSorted)
+  
+  return tableSorted
+end

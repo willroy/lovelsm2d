@@ -12,8 +12,12 @@ function Animation:init(node, path, data, scale)
 
 	self.frameSize = {w=(self.image:getWidth()/data.cols), h=self.image:getHeight()/data.rows}
 	self.quads = {}
+
+	local count = 0
 	for r = 0, data.rows-1 do
 		for c = 0, data.cols-1 do
+			count = count + 1
+			if count > data.frames then break end
 			local x = (c*self.frameSize.w)
 			local y = (r*self.frameSize.h)
 			self.quads[#self.quads+1] = love.graphics.newQuad(x, y, self.frameSize.w, self.frameSize.h, self.image:getWidth(), self.image:getHeight())

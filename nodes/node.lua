@@ -1,5 +1,3 @@
--- An object that exists in the game
-
 Node = Object:extend()
 
 function Node:init(handle, transform)

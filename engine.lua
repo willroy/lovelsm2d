@@ -2,7 +2,8 @@ require("lovelsm2d/nodes/object")
 require("lovelsm2d/nodes/node")
 require("lovelsm2d/nodes/image")
 require("lovelsm2d/nodes/animation")
-require("lovelsm2d/nodes/nodeManager")
+
+require("lovelsm2d/nodeManager")
 
 require("lovelsm2d/data/data")
 require("lovelsm2d/data/globals")
@@ -42,7 +43,9 @@ function Engine:init(dataPath)
 	love.graphics.setDefaultFilter("linear", "linear", 1)
 	love.mouse.setCursor(helper:getCursor(globals.config.cursorArrow))
 
-	nodeManager:loadNodesFromJSONFile()
+	nodeManager:init()
+
+	nodeManager:loadNodes(globals.config.nodesPath)
 end
 
 function Engine:update(dt)

@@ -59,11 +59,15 @@ function Events:runTask()
 	local task = self.tasks[self.taski].task
 	local taskType = helper:mysplit(task, " ")[1]
 
-	if taskType == "globals" then self:runGlobalsTask() end
-	if taskType == "print" then self:runPrintTask() end
+	if taskType == "globals" then self:task_runGlobals() end
+	if taskType == "print" then self:task_runPrint() end
+	if taskType == "loadNode" then self:task_loadNode() end
+	if taskType == "loadNodeGroup" then self:task_loadNodeGroup() end
+	if taskType == "unloadNode" then self:task_unloadNode() end
+	if taskType == "unloadNodeGroup" then self:task_unloadNodeGroup() end
 end
 
-function Events:runGlobalsTask()
+function Events:task_runGlobals()
 	local task = self.tasks[self.taski].task
 	local variable = helper:mysplit(task, " ")[2]
 	local newValue = helper:mysplit(task, " ")[3]
@@ -72,9 +76,37 @@ function Events:runGlobalsTask()
 	self.tasks[self.taski].continue = true
 end
 
-function Events:runPrintTask()
+function Events:task_runPrint()
 	local task = self.tasks[self.taski].task
 	print(string.sub(task, 7, #task))
 	self.tasks[self.taski].initialized = true
 	self.tasks[self.taski].continue = true
+end
+
+function Events:task_loadNode()
+	local task = self.tasks[self.taski].task
+	local handle = helper:mysplit(task, " ")[2]
+
+	nodeManager:loadNode(handle)
+end
+
+function Events:task_loadNodeGroup()
+	local task = self.tasks[self.taski].task
+	local handle = helper:mysplit(task, " ")[2]
+
+	nodeManager:loadNodeGroup(handle)
+end
+
+function Events:task_unloadNode()
+	local task = self.tasks[self.taski].task
+	local handle = helper:mysplit(task, " ")[2]
+
+	nodeManager:unloadNode(handle)
+end
+
+function Events:task_unloadNodeGroup()
+	local task = self.tasks[self.taski].task
+	local handle = helper:mysplit(task, " ")[2]
+
+	nodeManager:unloadNodeGroup(handle)
 end

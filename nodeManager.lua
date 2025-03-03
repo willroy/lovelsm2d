@@ -1,6 +1,8 @@
 NodeManager = Object:extend()
 
 function NodeManager:init()
+	self.nodes = {}
+	self.loadedNodes = {}
 end
 
 function NodeManager:addNode(node)
@@ -16,6 +18,20 @@ function NodeManager:loadNodeGroup(groupHandle)
 		end
 	end
 end
+
+function NodeManager:unloadNodeGroup(groupHandle)
+	indexes = {}
+	for n = 1, #self.loadedNodes do
+		if self.loadedNodes[n].groupHandle ~= nil and self.loadedNodes[n].groupHandle == groupHandle then
+			indexes[#indexes+1] = n
+		end
+	end
+	for k, index in pairs(indexes) do
+		self.loadedNodes[index] = nil
+		table.remove(self.loadedNodes, index)
+	end
+end
+
 function NodeManager:loadNode(handle)
 	for n = 1, #self.nodes do
 		if self.nodes[n].handle ~= nil and self.nodes[n].handle == handle then
@@ -38,15 +54,26 @@ function NodeManager:unloadNode(handle)
 	end
 end
 
-function NodeManager:loadNodesFromJSONFile()
-	self.nodes = {}
-	self.loadedNodes = {}
+function NodeManager:loadNodes(path)
+	local nodeDataPath = path
 
-	local nodeDataPath = globals.config.dataPath.."/nodes.json"
+	local isDir = false
+	if string.find(nodeDataPath, "%.") then
+		self:loadNodesFromJSONFile(nodeDataPath)
+	else
+		for k, item in pairs(data:findFileRecursivelyByExt(nodeDataPath, ".json")) do
+			self:loadNodesFromJSONFile(item)
+		end
+	end
+end
 
-	local data = data:readFile(nodeDataPath)
+function NodeManager:loadNodesFromJSONFile(path)
+	local data = data:readFile(path)
 	for k, v in pairs(data) do
-		self.nodes[#self.nodes+1] = Node(v.handle,{x=v.x,y=v.y,w=v.w,h=v.h})
+		local handle = path
+		handle = string.sub(handle, 1, #handle-(#handle:match("([^/]+)$")+1))
+		handle = handle.."/"..v.handle:gsub("%/", "-")
+		self.nodes[#self.nodes+1] = Node(handle,{x=v.x,y=v.y,w=v.w,h=v.h})
 		local node = self.nodes[#self.nodes]
 		node.interactable = v.interactable
 		node.zIndex = v.zIndex

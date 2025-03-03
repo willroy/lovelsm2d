@@ -32,9 +32,9 @@ function Globals:checkKeyBinds(key, key_pressed)
 end
 
 function Globals:save()
-	-- loop through globals and save to game_saveData/global.json
+	-- loop through globals and save to game_saveData/config.json
 end
 
 function Globals:load()
-	-- read game_saveData/global.json / and save to globals
+	-- read game_saveData/config.json / and save to globals
 end

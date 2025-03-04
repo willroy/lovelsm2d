@@ -35,7 +35,7 @@ end
 function Input:mousepressed(x, y, button, istouch)
 	for n = 1, #nodeManager.loadedNodes do
 		local node = nodeManager.loadedNodes[n]
-		local interactable = ( node.interactable and ( not self.dialougeMode ) or ( self.dialougeMode and node.type == "dialouge" ) )
+		local interactable = ( node.interactable and ( ( not self.dialougeMode ) or ( self.dialougeMode and node.type == "dialouge" ) ) )
 		if interactable and x > node.transform.x and x < (node.transform.x+node.transform.w) then
 			if y > node.transform.y and y < (node.transform.y+node.transform.h) then
 				self.nodes_clicked[#self.nodes_clicked+1] = node

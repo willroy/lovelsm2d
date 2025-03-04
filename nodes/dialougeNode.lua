@@ -1,7 +1,7 @@
 DialougeNode = Node:extend()
 
-function DialougeNode:init(handle, transform)
-	Node.init(self, handle, transform)
+function DialougeNode:init()
+	Node.init(self)
 	self.dialougeHandle = ""
 	self.dialouge = {}
 	self.step = 1

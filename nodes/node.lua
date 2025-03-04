@@ -1,9 +1,9 @@
 Node = Object:extend()
 
-function Node:init(handle, transform)
-	self.handle = handle or ""
+function Node:init()
+	self.handle = ""
 	self.groupHandle = ""
-	self.transform = transform or { x = 0, y = 0, w = 0, h = 0 }
+	self.transform = { x = 0, y = 0, w = 0, h = 0 }
 	self.drawable = nil
 	self.interactable = false
 	self.zIndex = 0

@@ -28,10 +28,10 @@ function NodeManager:unloadNodeGroup(groupHandle)
 	for n = 1, #self.loadedNodes do
 		if self.loadedNodes[n].groupHandle ~= nil and self.loadedNodes[n].groupHandle == groupHandle then
 			indexes[#indexes+1] = n
+			if self.loadedNodes[n].type == "dialouge" then input.dialougeMode = false end
 		end
 	end
 
-	-- sort and reverse so that removing nodes from back to front
 	indexes = Helper:selectionSort(indexes, true)
 
 	for k, index in pairs(indexes) do
@@ -44,6 +44,10 @@ function NodeManager:loadNode(handle)
 	for n = 1, #self.nodes do
 		if self.nodes[n].handle ~= nil and self.nodes[n].handle == handle then
 			table.insert(self.loadedNodes, self.nodes[n])
+			if self.nodes[n].type == "dialouge" then
+				input.dialougeMode = true
+				self.nodes[n]:loadDialouge()
+			end
 			return
 		end
 	end
@@ -54,6 +58,7 @@ function NodeManager:unloadNode(handle)
 	for n = 1, #self.loadedNodes do
 		if self.loadedNodes[n].handle ~= nil and self.loadedNodes[n].handle == handle then
 			index = n
+			if self.loadedNodes[n].type == "dialouge" then input.dialougeMode = false end
 		end
 	end
 	if index ~= nil then
@@ -78,46 +83,32 @@ end
 function NodeManager:loadNodesFromJSONFile(path)
 	local data = data:readFile(path)
 	for k, v in pairs(data) do
-		local handle = path
-		handle = string.sub(handle, 1, #handle-5)
-		handle = handle.."/"..v.handle:gsub("%/", "-")
 		if v.type ~= nil and v.type == "dialouge" then
-			self.nodes[#self.nodes+1] = DialougeNode(handle,{x=v.x,y=v.y,w=v.w,h=v.h})
+			self.nodes[#self.nodes+1] = DialougeNode()
 		else
-			self.nodes[#self.nodes+1] = Node(handle,{x=v.x,y=v.y,w=v.w,h=v.h})
+			self.nodes[#self.nodes+1] = Node()
 		end
+
 		local node = self.nodes[#self.nodes]
+		local handle = string.sub(path, 1, #path-5).."/"..v.handle:gsub("%/", "-")
+		local groupHandle = string.sub(path, 1, #path-5).."/"..v.groupHandle:gsub("%/", "-")
+
 		node.interactable = v.interactable
 		node.zIndex = v.zIndex
-		node.groupHandle = v.groupHandle
-		if v.preload ~= nil then node.preload = v.preload end
-		if v.dialouge ~= nil then node.dialougeHandle = v.dialouge end
+		node.groupHandle = groupHandle
+		node.handle = handle
+		node.transform = {x=v.x,y=v.y,w=v.w,h=v.h}
+		node.preload = v.preload
+		node.dialougeHandle = v.dialouge
+
 		if v.type ~= nil then node.type = v.type end
-		if v.type == nil then node.type = "node" end
 
 		if v.image ~= nil then
-			node:setImage(
-				v.image.path, 
-				{
-					x = v.image.scaleX,
-					y = v.image.scaleY
-				}
-			)
+			node:setImage(v.image.path, {x = v.image.scaleX, y = v.image.scaleY})
 		end
+		
 		if v.animation ~= nil then
-			node:setAnimation(
-				v.animation.path, 
-				{
-					x = v.animation.scaleX,
-					y = v.animation.scaleY
-				},
-				{
-					frames = v.animation.data.frames,
-					cols = v.animation.data.cols,
-					rows = v.animation.data.rows,
-					speed = v.animation.data.speed
-				}
-			)
+			node:setAnimation(v.animation.path, {x = v.animation.scaleX, y = v.animation.scaleY}, {frames = v.animation.data.frames, cols = v.animation.data.cols, rows = v.animation.data.rows, speed = v.animation.data.speed})
 		end
 	end
 

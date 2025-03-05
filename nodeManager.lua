@@ -107,6 +107,10 @@ function NodeManager:loadNodesFromJSONFile(path)
 		if v.animation ~= nil then
 			node:setAnimation(v.animation.path, {x = v.animation.scaleX, y = v.animation.scaleY}, {frames = v.animation.data.frames, cols = v.animation.data.cols, rows = v.animation.data.rows, speed = v.animation.data.speed})
 		end
+
+		if v.spritesheet ~= nil then
+			node:setSpritesheet(v.spritesheet.path, {x = v.spritesheet.scaleX, y = v.spritesheet.scaleY}, v.spritesheet.ssX, v.spritesheet.ssY, v.spritesheet.ssW, v.spritesheet.ssH)
+		end
 	end
 
 	table.sort(self.nodes, function(a,b) return a.zIndex < b.zIndex end)

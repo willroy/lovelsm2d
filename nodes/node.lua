@@ -19,6 +19,10 @@ function Node:setAnimation(imagePath, scale, data)
 	self.drawable = Animation(self, imagePath, data, scale)
 end
 
+function Node:setSpritesheet(imagePath, scale, ssX, ssY, ssW, ssH)
+	self.drawable = Spritesheet(self, imagePath, scale, ssX, ssY, ssW, ssH)
+end
+
 function Node:update(dt)
 	if self.drawable ~= nil then self.drawable:update(dt) end
 end

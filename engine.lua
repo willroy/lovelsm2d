@@ -1,8 +1,10 @@
 require("lovelsm2d/nodes/object")
 require("lovelsm2d/nodes/node")
 require("lovelsm2d/nodes/dialougeNode")
-require("lovelsm2d/nodes/image")
-require("lovelsm2d/nodes/animation")
+
+require("lovelsm2d/drawables/image")
+require("lovelsm2d/drawables/animation")
+require("lovelsm2d/drawables/spritesheet")
 
 require("lovelsm2d/nodeManager")
 

@@ -46,7 +46,7 @@ function Engine:init(dataPath)
 
 	nodeManager:init()
 
-	nodeManager:loadNodes(globals.config.nodesPath)
+	nodeManager:loadNodes()
 end
 
 function Engine:update(dt)

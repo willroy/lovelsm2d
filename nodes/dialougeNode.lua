@@ -3,6 +3,7 @@ DialougeNode = Node:extend()
 function DialougeNode:init()
 	Node.init(self)
 	self.dialougeHandle = ""
+	self.dialougePath = globals.config.dialougePath
 	self.dialouge = {}
 	self.step = 1
 end
@@ -17,7 +18,15 @@ function DialougeNode:draw()
 end
 
 function DialougeNode:loadDialouge()
-	local data = data:readKeyInFile(globals.config.dialougePath, self.dialougeHandle)
+	local pathSplit = helper:mysplit(self.dialougeHandle, "/")
+	local path = ""
+	for k, v in pairs(pathSplit) do
+		if k == #pathSplit then break end
+		path = path.."/"..v
+	end
+	path = self.dialougePath..path..".json"
+	local handle = pathSplit[#pathSplit]
+	local data = data:readKeyInFile(path, handle)
 	for k, v in pairs(data) do
 		self.dialouge[#self.dialouge+1] = v
 	end

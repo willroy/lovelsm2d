@@ -24,20 +24,17 @@ function NodeManager:loadNodeGroup(groupHandle)
 end
 
 function NodeManager:unloadNodeGroup(groupHandle)
-	indexes = {}
+	local newLoadedNodes = {}
 	for n = 1, #self.loadedNodes do
 		if self.loadedNodes[n].groupHandle ~= nil and self.loadedNodes[n].groupHandle == groupHandle then
-			indexes[#indexes+1] = n
 			if self.loadedNodes[n].type == "dialouge" then input.dialougeMode = false end
+		else
+			if self.loadedNodes[n].type == "dialouge" then input.dialougeMode = true end
+			newLoadedNodes[#newLoadedNodes+1] = self.loadedNodes[n]
 		end
 	end
 
-	indexes = Helper:selectionSort(indexes, true)
-
-	for k, index in pairs(indexes) do
-		self.loadedNodes[index] = nil
-		table.remove(self.loadedNodes, index)
-	end
+	self.loadedNodes = newLoadedNodes
 end
 
 function NodeManager:loadNode(handle)
@@ -54,23 +51,21 @@ function NodeManager:loadNode(handle)
 end
 
 function NodeManager:unloadNode(handle)
-	local index = nil
+	local newLoadedNodes = {}
 	for n = 1, #self.loadedNodes do
 		if self.loadedNodes[n].handle ~= nil and self.loadedNodes[n].handle == handle then
-			index = n
 			if self.loadedNodes[n].type == "dialouge" then input.dialougeMode = false end
+		else
+			if self.loadedNodes[n].type == "dialouge" then input.dialougeMode = true end
+			newLoadedNodes[#newLoadedNodes+1] = self.loadedNodes[n]
 		end
 	end
-	if index ~= nil then
-		self.loadedNodes[index] = nil
-		table.remove(self.loadedNodes, index)
-	end
+	self.loadedNodes = newLoadedNodes
 end
 
-function NodeManager:loadNodes(path)
-	local nodeDataPath = path
+function NodeManager:loadNodes()
+	local nodeDataPath = globals.config.nodesPath
 
-	local isDir = false
 	if string.find(nodeDataPath, "%.") then
 		self:loadNodesFromJSONFile(nodeDataPath)
 	else
@@ -81,7 +76,9 @@ function NodeManager:loadNodes(path)
 end
 
 function NodeManager:loadNodesFromJSONFile(path)
+	local nodeDataPath = globals.config.nodesPath
 	local data = data:readFile(path)
+
 	for k, v in pairs(data) do
 		if v.type ~= nil and v.type == "dialouge" then
 			self.nodes[#self.nodes+1] = DialougeNode()
@@ -90,8 +87,8 @@ function NodeManager:loadNodesFromJSONFile(path)
 		end
 
 		local node = self.nodes[#self.nodes]
-		local handle = string.sub(path, 1, #path-5).."/"..v.handle:gsub("%/", "-")
-		local groupHandle = string.sub(path, 1, #path-5).."/"..v.groupHandle:gsub("%/", "-")
+		local handle = string.sub(path, #nodeDataPath+2, #path-5).."/"..v.handle:gsub("%/", "-")
+		local groupHandle = string.sub(path, #nodeDataPath+2, #path-5).."/"..v.groupHandle:gsub("%/", "-")
 
 		node.interactable = v.interactable
 		node.zIndex = v.zIndex

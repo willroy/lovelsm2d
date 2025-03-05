@@ -1,7 +1,14 @@
 Events = Object:extend()
 
 function Events:init()
-	self.events = data:readFile(globals.config.dataPath.."/events.json")
+	if string.find(globals.config.eventsPath, "%.") then
+		self.events = data:readFile(globals.config.eventsPath)
+	else
+		for k, item in pairs(data:findFileRecursivelyByExt(globals.config.eventsPath, ".json")) do
+			self.events = data:readFile(item)
+		end
+	end
+
 	self.triggered = false
 	self.running = false
 

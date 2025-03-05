@@ -4,11 +4,11 @@ function Globals:init(dataPath)
 	local globalsPath = dataPath.."/config.json"
 	local keybindsPath = dataPath.."/keybinds.json"
 
-	if data:fileExists(globalsPath) == false then globalsPath = "lovelsm2d/defaultConfig.json" end
-	if data:fileExists(keybindsPath) == false then keybindsPath = "lovelsm2d/defaultKeybinds.json" end
+	if helper:fileExists(globalsPath) == false then globalsPath = "lovelsm2d/defaultConfig.json" end
+	if helper:fileExists(keybindsPath) == false then keybindsPath = "lovelsm2d/defaultKeybinds.json" end
 
-	self.config = data:readFile(globalsPath)
-	self.keybinds = data:readFile(keybindsPath)
+	self.config = helper:readFile(globalsPath)
+	self.keybinds = helper:readFile(keybindsPath)
 
 	self.trackers = {
 		lastMousePos = { x = 0, y = 0 },

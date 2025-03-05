@@ -2,10 +2,10 @@ Events = Object:extend()
 
 function Events:init()
 	if string.find(globals.config.eventsPath, "%.") then
-		self.events = data:readFile(globals.config.eventsPath)
+		self.events = helper:readFile(globals.config.eventsPath)
 	else
-		for k, item in pairs(data:findFileRecursivelyByExt(globals.config.eventsPath, ".json")) do
-			self.events = data:readFile(item)
+		for k, item in pairs(helper:findFileRecursivelyByExt(globals.config.eventsPath, ".json")) do
+			self.events = helper:readFile(item)
 		end
 	end
 

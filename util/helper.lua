@@ -1,3 +1,5 @@
+local json = require('cjson')
+
 Helper = Object:extend()
 
 function Helper:helloWorld()
@@ -60,4 +62,70 @@ function Helper:selectionSort(tableToSort, reverse)
   table.sort(tableSorted)
   
   return tableSorted
+end
+
+-- file helper functions
+
+function Helper:fileExists(path)
+  local readPath = ""
+  if path:find("^/") then readPath = love.filesystem.getWorkingDirectory()..path
+  else readPath = love.filesystem.getWorkingDirectory().."/"..path end
+   local file = io.open(readPath, "r")
+   if file ~= nil then io.close(file) return true else return false end
+  return data
+end
+
+function Helper:getAbsolutePath(path)
+  local readPath = ""
+  if path:find("^/") then readPath = love.filesystem.getWorkingDirectory()..path
+  else readPath = love.filesystem.getWorkingDirectory().."/"..path end
+  return readPath
+end
+
+function Helper:readFile(path)
+  local readPath = ""
+  if path:find("^/") then readPath = love.filesystem.getWorkingDirectory()..path
+  else readPath = love.filesystem.getWorkingDirectory().."/"..path end
+  local data = {}
+  local f = assert(io.open(readPath, "rb"))
+    local content = f:read("*all")
+  data = json.decode(content)
+  return data
+end
+
+function Helper:readKeyInFile(path, key)
+  local readPath = ""
+  if path:find("^/") then readPath = love.filesystem.getWorkingDirectory()..path
+  else readPath = love.filesystem.getWorkingDirectory().."/"..path end
+  local data = {}
+  local f = assert(io.open(readPath, "rb"))
+    local content = f:read("*all")
+  data = json.decode(content)
+  return data[key]
+end
+
+function Helper:findFileRecursivelyByExt(dir, ext)
+  local files = {}
+  for k, item in pairs(self:scanDir(dir)) do
+    if string.find(item, "%.") and item ~= "." and item ~= ".." then
+      if string.sub(item, -#ext) == ext then files[#files+1] = dir.."/"..item end
+    elseif item ~= "." and item ~= ".." then
+      local dirPath = dir.."/"..item
+      for k, itemR in pairs(self:findFileRecursivelyByExt(dirPath, ext)) do
+        files[#files+1] = itemR
+      end
+    end
+  end
+  return files
+end
+
+function Helper:scanDir(dir)
+    local i, t, popen = 0, {}, io.popen
+    local pfile = popen('ls -a "'..dir..'"')
+    for filename in pfile:lines() do
+        i = i + 1
+        t[i] = filename
+    end
+    pfile:close()
+    return t
 end

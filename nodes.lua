@@ -69,7 +69,7 @@ function NodeManager:loadNodes()
 	if string.find(nodeDataPath, "%.") then
 		self:loadNodesFromJSONFile(nodeDataPath)
 	else
-		for k, item in pairs(data:findFileRecursivelyByExt(nodeDataPath, ".json")) do
+		for k, item in pairs(helper:findFileRecursivelyByExt(nodeDataPath, ".json")) do
 			self:loadNodesFromJSONFile(item)
 		end
 	end
@@ -77,7 +77,7 @@ end
 
 function NodeManager:loadNodesFromJSONFile(path)
 	local nodeDataPath = globals.config.nodesPath
-	local data = data:readFile(path)
+	local data = helper:readFile(path)
 
 	for k, v in pairs(data) do
 		if v.type ~= nil and v.type == "dialouge" then

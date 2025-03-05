@@ -26,7 +26,7 @@ function DialougeNode:loadDialouge()
 	end
 	path = self.dialougePath..path..".json"
 	local handle = pathSplit[#pathSplit]
-	local data = data:readKeyInFile(path, handle)
+	local data = helper:readKeyInFile(path, handle)
 	for k, v in pairs(data) do
 		self.dialouge[#self.dialouge+1] = v
 	end

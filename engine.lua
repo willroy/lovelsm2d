@@ -6,18 +6,16 @@ require("lovelsm2d/drawables/image")
 require("lovelsm2d/drawables/animation")
 require("lovelsm2d/drawables/spritesheet")
 
-require("lovelsm2d/nodeManager")
-
-require("lovelsm2d/data/data")
-require("lovelsm2d/data/globals")
-
 require("lovelsm2d/input/events")
 require("lovelsm2d/input/input")
 
-require("lovelsm2d/test/debugInfo")
-require("lovelsm2d/test/test")
-
+require("lovelsm2d/util/debugInfo")
+require("lovelsm2d/util/test")
 require("lovelsm2d/util/helper")
+
+require("lovelsm2d/nodes")
+require("lovelsm2d/globals")
+
 
 Engine = Object:extend()
 
@@ -30,7 +28,6 @@ debugInfo = nil
 nodeManager = nil
 
 function Engine:init(dataPath)
-	data = Data()
 	helper = Helper()
 	globals = Globals(dataPath)
 	input = Input()

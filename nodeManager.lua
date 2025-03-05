@@ -100,17 +100,12 @@ function NodeManager:loadNodesFromJSONFile(path)
 
 		if v.type ~= nil then node.type = v.type end
 
-		if v.image ~= nil then
-			node:setImage(v.image.path, {x = v.image.scaleX, y = v.image.scaleY})
-		end
-		
-		if v.animation ~= nil then
-			node:setAnimation(v.animation.path, {x = v.animation.scaleX, y = v.animation.scaleY}, {frames = v.animation.data.frames, cols = v.animation.data.cols, rows = v.animation.data.rows, speed = v.animation.data.speed})
-		end
-
-		if v.spritesheet ~= nil then
-			node:setSpritesheet(v.spritesheet.path, {x = v.spritesheet.scaleX, y = v.spritesheet.scaleY}, v.spritesheet.ssX, v.spritesheet.ssY, v.spritesheet.ssW, v.spritesheet.ssH)
-		end
+		if v.image ~= nil then node:setImage(v.image.path, {x = v.image.scaleX, y = v.image.scaleY}) end
+		if v.hover_image ~= nil then node:setHoverImage(v.hover_image.path, {x = v.hover_image.scaleX, y = v.hover_image.scaleY}) end
+		if v.animation ~= nil then node:setAnimation(v.animation.path, {x = v.animation.scaleX, y = v.animation.scaleY}, {frames = v.animation.data.frames, cols = v.animation.data.cols, rows = v.animation.data.rows, speed = v.animation.data.speed}) end
+		if v.hover_animation ~= nil then node:setHoverAnimation(v.hover_animation.path, {x = v.hover_animation.scaleX, y = v.hover_animation.scaleY}, {frames = v.hover_animation.data.frames, cols = v.hover_animation.data.cols, rows = v.hover_animation.data.rows, speed = v.hover_animation.data.speed}) end
+		if v.spritesheet ~= nil then node:setSpritesheet(v.spritesheet.path, {x = v.spritesheet.scaleX, y = v.spritesheet.scaleY}, v.spritesheet.ssX, v.spritesheet.ssY, v.spritesheet.ssW, v.spritesheet.ssH) end
+		if v.hover_spritesheet ~= nil then node:setHoverSpritesheet(v.hover_spritesheet.path, {x = v.hover_spritesheet.scaleX, y = v.hover_spritesheet.scaleY}, v.hover_spritesheet.ssX, v.hover_spritesheet.ssY, v.hover_spritesheet.ssW, v.hover_spritesheet.ssH) end
 	end
 
 	table.sort(self.nodes, function(a,b) return a.zIndex < b.zIndex end)

@@ -16,8 +16,8 @@ function Input:update(dt)
 	self.nodes_hovered = {}
 	self.interactable_nodes_hovered = {}
 
-	for n = 1, #nodeManager.loadedNodes do
-		local node = nodeManager.loadedNodes[n]
+	for n = 1, #nodes.loadedNodes do
+		local node = nodes.loadedNodes[n]
 		if globals.trackers.mousePos.x > node.transform.x and globals.trackers.mousePos.x < (node.transform.x+node.transform.w) then
 			if globals.trackers.mousePos.y > node.transform.y and globals.trackers.mousePos.y < (node.transform.y+node.transform.h) then
 				self.nodes_hovered[#self.nodes_hovered+1] = node
@@ -33,8 +33,8 @@ function Input:update(dt)
 end
 
 function Input:mousepressed(x, y, button, istouch)
-	for n = 1, #nodeManager.loadedNodes do
-		local node = nodeManager.loadedNodes[n]
+	for n = 1, #nodes.loadedNodes do
+		local node = nodes.loadedNodes[n]
 		local interactable = node ~= nil and ( node.interactable and ( ( not self.dialougeMode ) or ( self.dialougeMode and node.type == "dialouge" ) ) )
 		if interactable and x > node.transform.x and x < (node.transform.x+node.transform.w) then
 			if y > node.transform.y and y < (node.transform.y+node.transform.h) then
@@ -57,6 +57,7 @@ end
 function Input:keypressed(key, code)
 	if globals:checkKeyBinds("quit", key) then love.event.quit() end
 	if globals:checkKeyBinds("debug", key) then debugInfo.debugEnabled = not debugInfo.debugEnabled end
+	events:trigger_keyPressed(key)
 end
 
 function Input:keyreleased(key)

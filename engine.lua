@@ -25,7 +25,7 @@ input = nil
 globals = nil
 events = nil
 debugInfo = nil
-nodeManager = nil
+nodes = nil
 
 function Engine:init(dataPath)
 	helper = Helper()
@@ -33,7 +33,7 @@ function Engine:init(dataPath)
 	input = Input()
 	events = Events()
 	debugInfo = DebugInfo()
-	nodeManager = NodeManager()
+	nodes = Nodes()
 
 	love.window.setTitle("template-love2d")
 	love.window.setMode(globals.config.windowSize.w, globals.config.windowSize.h, {vsync=1})
@@ -43,13 +43,13 @@ function Engine:init(dataPath)
 	love.graphics.setDefaultFilter("linear", "linear", 1)
 	love.mouse.setCursor(helper:getCursor(globals.config.cursorArrow))
 
-	nodeManager:init()
+	nodes:init()
 
-	nodeManager:loadNodes()
+	nodes:loadNodes()
 end
 
 function Engine:update(dt)
-	for n = 1, #nodeManager.loadedNodes do nodeManager.loadedNodes[n]:update(dt) end
+	for n = 1, #nodes.loadedNodes do nodes.loadedNodes[n]:update(dt) end
 
 	local mouseX, mouseY = love.mouse.getPosition()
 	globals.trackers.lastMousePos.x, globals.trackers.lastMousePos.y = globals.trackers.mousePos.x, globals.trackers.mousePos.y
@@ -66,7 +66,7 @@ function Engine:draw()
 	love.graphics.setColor(1,1,1,1)
 	love.graphics.push()
 
-	for n = 1, #nodeManager.loadedNodes do nodeManager.loadedNodes[n]:draw() end
+	for n = 1, #nodes.loadedNodes do nodes.loadedNodes[n]:draw() end
 	
 	debugInfo:draw()
 end

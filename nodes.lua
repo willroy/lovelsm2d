@@ -1,17 +1,17 @@
-NodeManager = Object:extend()
+Nodes = Object:extend()
 
-function NodeManager:init()
+function Nodes:init()
 	self.nodes = {}
 	self.loadedNodes = {}
 end
 
-function NodeManager:addNode(node)
+function Nodes:addNode(node)
 end
 
-function NodeManager:removeNode(handle)
+function Nodes:removeNode(handle)
 end
 
-function NodeManager:loadNodeGroup(groupHandle)
+function Nodes:loadNodeGroup(groupHandle)
 	for n = 1, #self.nodes do
 		if self.nodes[n].groupHandle ~= nil and self.nodes[n].groupHandle == groupHandle then
 			table.insert(self.loadedNodes, self.nodes[n])
@@ -23,7 +23,7 @@ function NodeManager:loadNodeGroup(groupHandle)
 	end
 end
 
-function NodeManager:unloadNodeGroup(groupHandle)
+function Nodes:unloadNodeGroup(groupHandle)
 	local newLoadedNodes = {}
 	for n = 1, #self.loadedNodes do
 		if self.loadedNodes[n].groupHandle ~= nil and self.loadedNodes[n].groupHandle == groupHandle then
@@ -37,7 +37,7 @@ function NodeManager:unloadNodeGroup(groupHandle)
 	self.loadedNodes = newLoadedNodes
 end
 
-function NodeManager:loadNode(handle)
+function Nodes:loadNode(handle)
 	for n = 1, #self.nodes do
 		if self.nodes[n].handle ~= nil and self.nodes[n].handle == handle then
 			table.insert(self.loadedNodes, self.nodes[n])
@@ -50,7 +50,7 @@ function NodeManager:loadNode(handle)
 	end
 end
 
-function NodeManager:unloadNode(handle)
+function Nodes:unloadNode(handle)
 	local newLoadedNodes = {}
 	for n = 1, #self.loadedNodes do
 		if self.loadedNodes[n].handle ~= nil and self.loadedNodes[n].handle == handle then
@@ -63,7 +63,7 @@ function NodeManager:unloadNode(handle)
 	self.loadedNodes = newLoadedNodes
 end
 
-function NodeManager:loadNodes()
+function Nodes:loadNodes()
 	local nodeDataPath = globals.config.nodesPath
 
 	if string.find(nodeDataPath, "%.") then
@@ -75,7 +75,25 @@ function NodeManager:loadNodes()
 	end
 end
 
-function NodeManager:loadNodesFromJSONFile(path)
+function Nodes:isNodeLoaded(nodeHandle)
+	for k, node in pairs(self.loadedNodes) do
+		if node.handle == nodeHandle then
+			return true
+		end
+	end
+	return false
+end
+
+function Nodes:isNodeGroupLoaded(nodeHandle)
+	for k, node in pairs(self.loadedNodes) do
+		if node.groupHandle == nodeHandle then
+			return true
+		end
+	end
+	return false
+end
+
+function Nodes:loadNodesFromJSONFile(path)
 	local nodeDataPath = globals.config.nodesPath
 	local data = helper:readFile(path)
 
@@ -113,7 +131,7 @@ function NodeManager:loadNodesFromJSONFile(path)
 	self:preLoadNodes()
 end
 
-function NodeManager:preLoadNodes()
+function Nodes:preLoadNodes()
 	for n = 1, #self.nodes do
 		if self.nodes[n].preload ~= nil and self.nodes[n].preload then
 			table.insert(self.loadedNodes, self.nodes[n])

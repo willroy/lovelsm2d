@@ -1,11 +1,16 @@
 Events = Object:extend()
 
 function Events:init()
+	self.events = {}
 	if string.find(globals.config.eventsPath, "%.") then
-		self.events = helper:readFile(globals.config.eventsPath)
+		for k, v in pairs(helper:readFile(globals.config.eventsPath)) do
+			self.events[#self.events+1] = v
+		end
 	else
 		for k, item in pairs(helper:findFileRecursivelyByExt(globals.config.eventsPath, ".json")) do
-			self.events = helper:readFile(item)
+			for k, v in pairs(helper:readFile(item)) do
+				self.events[#self.events+1] = v
+			end
 		end
 	end
 
@@ -19,33 +24,59 @@ end
 function Events:trigger_nodeClick(node)
 	if self.triggered or self.running then return end
 	for k, event in pairs(self.events) do
-		if helper:mysplit(event.trigger, " ")[1] == "click" then
-			if helper:mysplit(event.trigger, " ")[2] == node.handle then
-				self.running = true
-				local tasks = event.tasks
-				for t = 1, #tasks do
-					if helper:mysplit(tasks[t]," ")[1] == "dialog" then 
-						self.tasks[t] = {task = tasks[t], initialized = false, continue = false}
-					else
-						self.tasks[t] = {task = tasks[t], initialized = false, continue = false}
-					end
-				end
-			end
-		end
+		local triggerPassed = helper:mysplit(event.trigger, " ")[1] == "click" and helper:mysplit(event.trigger, " ")[2] == node.handle
+		if triggerPassed then self:runEvent(event) end
 	end
 end
 
 function Events:trigger_nodeHover(node)
 	if self.triggered or self.running then return end
+	for k, event in pairs(self.events) do
+		local triggerPassed = helper:mysplit(event.trigger, " ")[1] == "hover" and helper:mysplit(event.trigger, " ")[2] == node.handle
+		if triggerPassed then self:runEvent(event) end
+	end
 end
 
-function Events:trigger_locationChange()
+function Events:trigger_keyPressed(key)
 	if self.triggered or self.running then return end
+	for k, event in pairs(self.events) do
+		local triggerPassed = helper:mysplit(event.trigger, " ")[1] == "press" and globals:checkKeyBinds(helper:mysplit(event.trigger, " ")[2], key)
+		if triggerPassed then self:runEvent(event) end
+	end
 end
 
-function Events:trigger_timeElapsed(t)
-	if self.triggered or self.running then return end
+function Events:runEvent(event)
+	local conditionsPassed = self:checkConditions(event)
+	if conditionsPassed then
+		self.running = true
+		local tasks = event.tasks
+		for t = 1, #tasks do
+			self.tasks[t] = {task = tasks[t], initialized = false, continue = false}
+		end
+	end
 end
+
+-- Condition Handling
+
+function Events:checkConditions(event)
+	local passed = false
+
+	if event.conditions == nil or #event.conditions == 0 then return true end
+
+	for k, condition in pairs(event.conditions) do
+		local conditionTokens = helper:mysplit(condition, " ")
+		local condition = conditionTokens[1]
+		local target = conditionTokens[2]
+
+		if condition == "loaded" then passed = nodes:isNodeGroupLoaded(target) end
+
+		if conditionTokens[#conditionTokens] == "not" then passed = not passed end
+	end
+
+	return passed
+end
+
+-- Task Handling
 
 function Events:taskHandler()
 	if not self.tasks[self.taski].initialized then self:runTask() end
@@ -89,7 +120,7 @@ function Events:task_loadNode()
 	local task = self.tasks[self.taski].task
 	local handle = helper:mysplit(task, " ")[2]
 
-	nodeManager:loadNode(handle)
+	nodes:loadNode(handle)
 
 	self.tasks[self.taski].initialized = true
 	self.tasks[self.taski].continue = true
@@ -99,7 +130,7 @@ function Events:task_loadNodeGroup()
 	local task = self.tasks[self.taski].task
 	local handle = helper:mysplit(task, " ")[2]
 
-	nodeManager:loadNodeGroup(handle)
+	nodes:loadNodeGroup(handle)
 
 	self.tasks[self.taski].initialized = true
 	self.tasks[self.taski].continue = true
@@ -109,7 +140,7 @@ function Events:task_unloadNode()
 	local task = self.tasks[self.taski].task
 	local handle = helper:mysplit(task, " ")[2]
 
-	nodeManager:unloadNode(handle)
+	nodes:unloadNode(handle)
 
 	self.tasks[self.taski].initialized = true
 	self.tasks[self.taski].continue = true
@@ -119,7 +150,7 @@ function Events:task_unloadNodeGroup()
 	local task = self.tasks[self.taski].task
 	local handle = helper:mysplit(task, " ")[2]
 
-	nodeManager:unloadNodeGroup(handle)
+	nodes:unloadNodeGroup(handle)
 
 	self.tasks[self.taski].initialized = true
 	self.tasks[self.taski].continue = true

@@ -36,6 +36,6 @@ function DialougeNode:mousepressed()
 	self.step = self.step + 1
 	if self.step > #self.dialouge then
 		input.dialougeMode = false
-		nodeManager:unloadNode(self.handle)
+		nodes:unloadNode(self.handle)
 	end
 end

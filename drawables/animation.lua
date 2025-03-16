@@ -2,29 +2,29 @@
 
 Animation = Object:extend()
 
-function Animation:init(node, path, data, scale)
+function Animation:init(node, data)
 	self.node = node
-	self.path = path
+	self.path = data.path
 	local assetsFolder = globals.config.pathAssets
 	self.image = love.graphics.newImage(assetsFolder.."/"..self.path)
-	self.scale = scale or {x = 1, y = 1}
+	self.scale = data.scale or {x = 1, y = 1}
 	self.color = {r=1,g=1,b=1,a=1}
 
-	self.frameSize = {w=(self.image:getWidth()/data.cols), h=self.image:getHeight()/data.rows}
+	self.frameSize = {w=(self.image:getWidth()/data.data.cols), h=self.image:getHeight()/data.data.rows}
 	self.quads = {}
 
 	local count = 0
-	for r = 0, data.rows-1 do
-		for c = 0, data.cols-1 do
+	for r = 0, data.data.rows-1 do
+		for c = 0, data.data.cols-1 do
 			count = count + 1
-			if count > data.frames then break end
+			if count > data.data.frames then break end
 			local x = (c*self.frameSize.w)
 			local y = (r*self.frameSize.h)
 			self.quads[#self.quads+1] = love.graphics.newQuad(x, y, self.frameSize.w, self.frameSize.h, self.image:getWidth(), self.image:getHeight())
 		end
 	end
 
-	self.timer = {t=0, tmax=data.speed or 4, f=1, fmax=#self.quads}
+	self.timer = {t=0, tmax=data.data.speed or 4, f=1, fmax=#self.quads}
 end
 
 function Animation:update(dt)

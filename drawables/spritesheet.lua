@@ -2,13 +2,13 @@
 
 Spritesheet = Object:extend()
 
-function Spritesheet:init(node, path, scale, ssX, ssY, ssW, ssH)
+function Spritesheet:init(node, data)
 	self.node = node
-	self.path = path
+	self.path = data.path
 	local assetsFolder = globals.config.pathAssets
-	self.scale = scale or {x = 1, y = 1}
+	self.scale = data.scale or {x = 1, y = 1}
 	self.image = love.graphics.newImage(assetsFolder.."/"..self.path)
-	self.quad = love.graphics.newQuad(ssX, ssY, ssW, ssH, self.image)
+	self.quad = love.graphics.newQuad(data.ssX, data.ssY, data.ssW, data.ssH, self.image)
 	self.color = {r=1,g=1,b=1,a=1}
 end
 

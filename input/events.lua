@@ -42,6 +42,7 @@ function Events:trigger_keyPressed(key)
 	for k, event in pairs(self.events) do
 		local triggerPassed = helper:mysplit(event.trigger, " ")[1] == "press" and globals:checkKeyBinds(helper:mysplit(event.trigger, " ")[2], key)
 		if triggerPassed then self:runEvent(event) end
+		if self.triggered or self.running then break end
 	end
 end
 
@@ -59,21 +60,40 @@ end
 -- Condition Handling
 
 function Events:checkConditions(event)
-	local passed = false
 
 	if event.conditions == nil or #event.conditions == 0 then return true end
+
+	local conditionsPassed = 0
 
 	for k, condition in pairs(event.conditions) do
 		local conditionTokens = helper:mysplit(condition, " ")
 		local condition = conditionTokens[1]
 		local target = conditionTokens[2]
+		local passed = false
 
 		if condition == "loaded" then passed = nodes:isNodeGroupLoaded(target) end
+		if condition == "variable" then passed = self:variableCondition(conditionTokens) end
 
 		if conditionTokens[#conditionTokens] == "not" then passed = not passed end
+
+		if passed then conditionsPassed = conditionsPassed + 1 end
 	end
 
+	local passed = (conditionsPassed == #event.conditions)
+
 	return passed
+end
+
+function Events:variableCondition(conditionTokens)
+	local conditionTarget = conditionTokens[2]
+	local conditionValue = conditionTokens[3]
+
+	local value = globals.config[conditionTarget]
+
+	if conditionValue == "true" then conditionValue = true end
+	if conditionValue == "false" then conditionValue = false end
+
+	return value == conditionValue
 end
 
 -- Task Handling
@@ -98,13 +118,14 @@ function Events:runTask()
 	if taskType == "loadNodeGroup" then self:task_loadNodeGroup() end
 	if taskType == "unloadNode" then self:task_unloadNode() end
 	if taskType == "unloadNodeGroup" then self:task_unloadNodeGroup() end
+	if taskType == "quit" then love.event.quit() end
 end
 
 function Events:task_runGlobals()
 	local task = self.tasks[self.taski].task
 	local variable = helper:mysplit(task, " ")[2]
 	local newValue = helper:mysplit(task, " ")[3]
-	globals.engineGlobals[variable] = newValue
+	globals.config[variable] = newValue
 	self.tasks[self.taski].initialized = true
 	self.tasks[self.taski].continue = true
 end

@@ -1,7 +1,7 @@
 Globals = Object:extend()
 
 function Globals:init()
-	local pathGlobals = "/config.json"
+	local pathGlobals = helper:readKeyInFile("lovelsm2d/defaultConfig.json", "pathConfig")
 	if helper:fileExists(pathGlobals) == false then pathGlobals = "lovelsm2d/defaultConfig.json" end
 	self.config = helper:readFile(pathGlobals)
 

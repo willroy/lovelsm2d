@@ -16,24 +16,32 @@ function Node:setImage(imagePath, scale)
 	self.drawable = Image(self, imagePath, scale)
 end
 
-function Node:setAnimation(imagePath, scale, data)
-	self.drawable = Animation(self, imagePath, data, scale)
-end
-
-function Node:setSpritesheet(imagePath, scale, ssX, ssY, ssW, ssH)
-	self.drawable = Spritesheet(self, imagePath, scale, ssX, ssY, ssW, ssH)
-end
-
 function Node:setHoverImage(imagePath, scale)
 	self.hoverDrawable = Image(self, imagePath, scale)
+end
+
+function Node:setAnimation(imagePath, scale, data)
+	self.drawable = Animation(self, imagePath, data, scale)
 end
 
 function Node:setHoverAnimation(imagePath, scale, data)
 	self.hoverDrawable = Animation(self, imagePath, data, scale)
 end
 
+function Node:setSpritesheet(imagePath, scale, ssX, ssY, ssW, ssH)
+	self.drawable = Spritesheet(self, imagePath, scale, ssX, ssY, ssW, ssH)
+end
+
 function Node:setHoverSpritesheet(imagePath, scale, ssX, ssY, ssW, ssH)
 	self.hoverDrawable = Spritesheet(self, imagePath, scale, ssX, ssY, ssW, ssH)
+end
+
+function Node:setShape(type, mode, transform, color)
+	self.drawable = Shape(self, type, mode, transform, color)
+end
+
+function Node:setHoverShape(type, mode, transform, color)
+	self.hoverDrawable = Shape(self, type, mode, transform, color)
 end
 
 function Node:update(dt)

@@ -5,7 +5,7 @@ Spritesheet = Object:extend()
 function Spritesheet:init(node, path, scale, ssX, ssY, ssW, ssH)
 	self.node = node
 	self.path = path
-	local assetsFolder = globals.config.assetsPath
+	local assetsFolder = globals.config.pathAssets
 	self.scale = scale or {x = 1, y = 1}
 	self.image = love.graphics.newImage(assetsFolder.."/"..self.path)
 	self.quad = love.graphics.newQuad(ssX, ssY, ssW, ssH, self.image)

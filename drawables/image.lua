@@ -5,7 +5,7 @@ Image = Object:extend()
 function Image:init(node, path, scale)
 	self.node = node
 	self.path = path
-	local assetsFolder = globals.config.assetsPath
+	local assetsFolder = globals.config.pathAssets
 	self.image = love.graphics.newImage(assetsFolder.."/"..self.path)
 	self.scale = scale or {x = 1, y = 1}
 	self.color = {r=1,g=1,b=1,a=1}

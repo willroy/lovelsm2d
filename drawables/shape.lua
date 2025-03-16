@@ -17,8 +17,8 @@ function Shape:draw()
 
 	local x = ( self.transform.x + self.node.transform.x )
 	local y = ( self.transform.y + self.node.transform.y )
-	local w = self.transform.w
-	local h = self.transform.h
+	local w = self.transform.w or self.node.transform.w
+	local h = self.transform.h or self.node.transform.h
 
 	if self.type == "rectangle" then love.graphics.rectangle(self.mode, x, y, w, h) end
 

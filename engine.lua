@@ -1,11 +1,12 @@
 require("lovelsm2d/nodes/object")
 require("lovelsm2d/nodes/node")
-require("lovelsm2d/nodes/dialougeNode")
 
 require("lovelsm2d/drawables/image")
 require("lovelsm2d/drawables/animation")
 require("lovelsm2d/drawables/spritesheet")
 require("lovelsm2d/drawables/shape")
+
+require("lovelsm2d/ui/dialouge")
 
 require("lovelsm2d/input/events")
 require("lovelsm2d/input/input")

@@ -1,23 +1,20 @@
-DialougeNode = Node:extend()
+Dialouge = Object:extend()
 
-function DialougeNode:init()
-	Node.init(self)
+function Dialouge:init()
 	self.dialougeHandle = ""
 	self.dialougePath = globals.config.dialougePath
 	self.dialouge = {}
 	self.step = 1
 end
 
-function DialougeNode:update(dt)
-	Node.update(self)
+function Dialouge:update(dt)
 end
 
-function DialougeNode:draw()
-	Node.draw(self)
+function Dialouge:draw()
 	love.graphics.print(self.dialouge[self.step], self.transform.x, self.transform.y)
 end
 
-function DialougeNode:loadDialouge()
+function Dialouge:loadDialouge()
 	local pathSplit = helper:mysplit(self.dialougeHandle, "/")
 	local path = ""
 	for k, v in pairs(pathSplit) do
@@ -32,7 +29,7 @@ function DialougeNode:loadDialouge()
 	end
 end
 
-function DialougeNode:mousepressed()
+function Dialouge:mousepressed()
 	self.step = self.step + 1
 	if self.step > #self.dialouge then
 		input.dialougeMode = false

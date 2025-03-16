@@ -7,8 +7,7 @@ engine = Engine
 function Lovelsm2d:init()
 	io.stdout:setvbuf("no")
 
-	local dataPath = ""
-	engine:init(dataPath)
+	engine:init()
 end
 
 function Lovelsm2d:update(dt)

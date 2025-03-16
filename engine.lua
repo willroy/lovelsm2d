@@ -27,19 +27,19 @@ events = nil
 debugInfo = nil
 nodes = nil
 
-function Engine:init(dataPath)
+function Engine:init()
 	helper = Helper()
-	globals = Globals(dataPath)
+	globals = Globals()
 	input = Input()
 	events = Events()
 	debugInfo = DebugInfo()
 	nodes = Nodes()
 
 	love.window.setTitle("template-love2d")
-	love.window.setMode(globals.config.windowSize.w, globals.config.windowSize.h, {vsync=1})
+	love.window.setMode(globals.config.windowSize.w, globals.config.windowSize.h, {vsync=globals.config.windowVsync, resizable=globals.config.windowResizable})
 
 	love.graphics.setBackgroundColor(globals.config.windowBackColour.r, globals.config.windowBackColour.g, globals.config.windowBackColour.b)
-	love.graphics.setFont(helper:getFont(globals.config.fontMain))
+	love.graphics.setFont(helper:getFont(globals.config.windowFont))
 	love.graphics.setDefaultFilter("linear", "linear", 1)
 	love.mouse.setCursor(helper:getCursor(globals.config.cursorArrow))
 

@@ -64,7 +64,7 @@ function Nodes:unloadNode(handle)
 end
 
 function Nodes:loadNodes()
-	local nodeDataPath = globals.config.nodesPath
+	local nodeDataPath = globals.config.pathNodes
 
 	if string.find(nodeDataPath, "%.") then
 		self:loadNodesFromJSONFile(nodeDataPath)
@@ -94,7 +94,7 @@ function Nodes:isNodeGroupLoaded(nodeHandle)
 end
 
 function Nodes:loadNodesFromJSONFile(path)
-	local nodeDataPath = globals.config.nodesPath
+	local nodeDataPath = globals.config.pathNodes
 	local data = helper:readFile(path)
 
 	for k, v in pairs(data) do

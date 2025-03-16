@@ -9,6 +9,7 @@ function Node:init()
 
 	self.ui = nil
 	self.drawable = nil
+	self.text = nil
 end
 
 function Node:setDrawable(type, data)
@@ -25,12 +26,18 @@ function Node:setUI(type, data)
 	if type == "menu" then self.ui = Menu(self, data) end
 end
 
+function Node:setText(data)
+	data.containerTransform = self.transform
+	self.text = Text(self, data)
+end
+
 function Node:update(dt)
 	if self.ui ~= nil then self.ui:update(dt) end
 	if self.drawable ~= nil then self.drawable:update(dt) end
 end
 
 function Node:draw()
+	if self.text ~= nil then self.text:draw() end
 	if self.ui ~= nil then self.ui:draw() end
 	if self.drawable ~= nil then self.drawable:draw() end
 end

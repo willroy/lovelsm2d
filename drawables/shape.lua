@@ -7,7 +7,7 @@ function Shape:init(node, data)
 	self.type = data.type
 	self.mode = data.mode
 	self.transform = data.transform or { x = 0, y = 0, w = 0, h = 0 }
-	self.color = data.color or { r = 1, g = 0, b = 0, a = 1 }
+	self.color = data.color or { r = 0, g = 0, b = 0, a = 1 }
 end
 
 function Shape:update(dt) end

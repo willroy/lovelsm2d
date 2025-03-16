@@ -99,6 +99,7 @@ function Nodes:loadNodesFromJSONFile(path)
 
 		if v.drawable ~= nil then node:setDrawable(v.drawable.type, v.drawable.data) end
 		if v.ui ~= nil then node:setUI(v.ui.type, v.ui.data) end
+		if v.text ~= nil then node:setText(v.text) end
 	end
 
 	table.sort(self.nodes, function(a,b) return a.zIndex < b.zIndex end)

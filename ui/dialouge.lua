@@ -7,13 +7,15 @@ function Dialouge:init(node, data)
 	self.dialougePath = globals.config.dialougePath
 	self.dialouge = {}
 	self.step = 1
+
+	self.text = Text(self.node, {containerTransform = self.node.transform, text = data.text, positioning="center"})
 end
 
 function Dialouge:update(dt)
 end
 
 function Dialouge:draw()
-	love.graphics.print(self.dialouge[self.step], self.transform.x, self.transform.y)
+	self.text.draw()
 end
 
 function Dialouge:loadDialouge()
@@ -36,5 +38,7 @@ function Dialouge:mousepressed(x, y, button, istouch)
 	if self.step > #self.dialouge then
 		input.dialougeMode = false
 		nodes:unloadNode(self.handle)
+	else
+		self.text.text = self.dialouge[self.step]
 	end
 end

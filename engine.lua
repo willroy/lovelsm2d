@@ -5,6 +5,7 @@ require("lovelsm2d/drawables/image")
 require("lovelsm2d/drawables/animation")
 require("lovelsm2d/drawables/spritesheet")
 require("lovelsm2d/drawables/shape")
+require("lovelsm2d/drawables/text")
 
 require("lovelsm2d/ui/dialouge")
 require("lovelsm2d/ui/button")

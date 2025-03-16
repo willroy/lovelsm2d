@@ -12,6 +12,13 @@ function Button:init(node, data)
 	if data.hoverdrawable.type == "animation" then self.hoverdrawable = Animation(self.node, data.hoverdrawable.data) end
 	if data.hoverdrawable.type == "spritesheet" then self.hoverdrawable = Spritesheet(self.node, data.hoverdrawable.data) end
 	if data.hoverdrawable.type == "shape" then self.hoverdrawable = Shape(self.node, data.hoverdrawable.data) end
+
+	self.event = data.event
+
+	if data.text ~= nil then
+		data.text.containerTransform = self.node.transform
+		self.text = Text(self.node, data.text)
+	end
 end
 
 function Button:update(dt)
@@ -20,6 +27,7 @@ function Button:update(dt)
 end
 
 function Button:draw()
+	if self.text ~= nil then self.text:draw() end
 	if self.hoverdrawable ~= nil and helper:contains(input.nodes_hovered, self.node) then self.hoverdrawable:draw()
 	elseif self.drawable ~= nil then self.drawable:draw() end
 end

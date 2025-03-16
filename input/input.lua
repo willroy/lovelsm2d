@@ -39,7 +39,7 @@ function Input:mousepressed(x, y, button, istouch)
 		if interactable and x > node.transform.x and x < (node.transform.x+node.transform.w) then
 			if y > node.transform.y and y < (node.transform.y+node.transform.h) then
 				self.nodes_clicked[#self.nodes_clicked+1] = node
-				if node.type == "dialouge" then node:mousepressed() end
+				node:mousepressed(x, y, button, istouch)
 				events:trigger_nodeClick(node)
 				events.triggered = true
 				love.mouse.setCursor(helper:getCursor(globals.config.cursorPointInteract))

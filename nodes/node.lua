@@ -9,27 +9,20 @@ function Node:init()
 
 	self.ui = nil
 	self.drawable = nil
-	self.hoverDrawable = nil
 end
 
-function Node:setImage(imagePath, scale, hover)
-	if hover then self.hoverDrawable = Image(self, imagePath, scale)
-	else self.drawable = Image(self, imagePath, scale) end
+function Node:setDrawable(type, data)
+	if type == "image" then self.drawable = Image(self, data) end
+	if type == "animation" then self.drawable = Animation(self, data) end
+	if type == "spritesheet" then self.drawable = Spritesheet(self, data) end
+	if type == "shape" then self.drawable = Shape(self, data) end
 end
 
-function Node:setAnimation(imagePath, scale, data, hover)
-	if hover then self.hoverDrawable = Animation(self, imagePath, data, scale)
-	else self.drawable = Animation(self, imagePath, data, scale) end
-end
-
-function Node:setSpritesheet(imagePath, scale, ssX, ssY, ssW, ssH, hover)
-	if hover then self.hoverDrawable = Spritesheet(self, imagePath, scale, ssX, ssY, ssW, ssH)
-	else self.drawable = Spritesheet(self, imagePath, scale, ssX, ssY, ssW, ssH) end
-end
-
-function Node:setShape(type, mode, transform, color, hover)
-	if hover then self.hoverDrawable = Shape(self, type, mode, transform, color)
-	else self.drawable = Shape(self, type, mode, transform, color) end
+function Node:setUI(type, data)
+	if type == "button" then self.ui = Button(self) end
+	if type == "dialouge" then self.ui = Dialouge(self) end
+	if type == "fileList" then self.ui = FileList(self) end
+	if type == "menu" then self.ui = Menu(self) end
 end
 
 function Node:update(dt)
@@ -42,4 +35,8 @@ function Node:draw()
 	if self.ui ~= nil then self.ui:draw() end
 	if self.drawable ~= nil then self.drawable:draw() end
 	if self.hoverDrawable ~= nil and helper:contains(input.nodes_hovered, self)  then self.hoverDrawable:draw() end
+end
+
+function Node:mousepressed(x, y, button, istouch)
+	if self.ui ~= nil then self.ui:mousepressed(x, y, button, istouch) end
 end

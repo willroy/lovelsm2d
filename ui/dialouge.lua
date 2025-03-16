@@ -29,7 +29,7 @@ function Dialouge:loadDialouge()
 	end
 end
 
-function Dialouge:mousepressed()
+function Dialouge:mousepressed(x, y, button, istouch)
 	self.step = self.step + 1
 	if self.step > #self.dialouge then
 		input.dialougeMode = false

@@ -7,6 +7,9 @@ require("lovelsm2d/drawables/spritesheet")
 require("lovelsm2d/drawables/shape")
 
 require("lovelsm2d/ui/dialouge")
+require("lovelsm2d/ui/button")
+require("lovelsm2d/ui/fileList")
+require("lovelsm2d/ui/menu")
 
 require("lovelsm2d/input/events")
 require("lovelsm2d/input/input")

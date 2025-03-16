@@ -1,6 +1,8 @@
 Dialouge = Object:extend()
 
-function Dialouge:init()
+function Dialouge:init(node, data)
+	self.node = node
+
 	self.dialougeHandle = ""
 	self.dialougePath = globals.config.dialougePath
 	self.dialouge = {}

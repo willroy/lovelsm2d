@@ -15,10 +15,6 @@ function Nodes:loadNodeGroup(groupHandle)
 	for n = 1, #self.nodes do
 		if self.nodes[n].groupHandle ~= nil and self.nodes[n].groupHandle == groupHandle then
 			table.insert(self.loadedNodes, self.nodes[n])
-			if self.nodes[n].type == "dialouge" then
-				input.dialougeMode = true
-				self.nodes[n]:loadDialouge()
-			end
 		end
 	end
 end
@@ -27,9 +23,6 @@ function Nodes:unloadNodeGroup(groupHandle)
 	local newLoadedNodes = {}
 	for n = 1, #self.loadedNodes do
 		if self.loadedNodes[n].groupHandle ~= nil and self.loadedNodes[n].groupHandle == groupHandle then
-			if self.loadedNodes[n].type == "dialouge" then input.dialougeMode = false end
-		else
-			if self.loadedNodes[n].type == "dialouge" then input.dialougeMode = true end
 			newLoadedNodes[#newLoadedNodes+1] = self.loadedNodes[n]
 		end
 	end
@@ -41,10 +34,6 @@ function Nodes:loadNode(handle)
 	for n = 1, #self.nodes do
 		if self.nodes[n].handle ~= nil and self.nodes[n].handle == handle then
 			table.insert(self.loadedNodes, self.nodes[n])
-			if self.nodes[n].type == "dialouge" then
-				input.dialougeMode = true
-				self.nodes[n]:loadDialouge()
-			end
 			return
 		end
 	end
@@ -54,9 +43,6 @@ function Nodes:unloadNode(handle)
 	local newLoadedNodes = {}
 	for n = 1, #self.loadedNodes do
 		if self.loadedNodes[n].handle ~= nil and self.loadedNodes[n].handle == handle then
-			if self.loadedNodes[n].type == "dialouge" then input.dialougeMode = false end
-		else
-			if self.loadedNodes[n].type == "dialouge" then input.dialougeMode = true end
 			newLoadedNodes[#newLoadedNodes+1] = self.loadedNodes[n]
 		end
 	end
@@ -98,11 +84,7 @@ function Nodes:loadNodesFromJSONFile(path)
 	local data = helper:readFile(path)
 
 	for k, v in pairs(data) do
-		if v.type ~= nil and v.type == "dialouge" then
-			self.nodes[#self.nodes+1] = DialougeNode()
-		else
-			self.nodes[#self.nodes+1] = Node()
-		end
+		self.nodes[#self.nodes+1] = Node()
 
 		local node = self.nodes[#self.nodes]
 		local handle = string.sub(path, #nodeDataPath+2, #path-5).."/"..v.handle:gsub("%/", "-")
@@ -114,7 +96,6 @@ function Nodes:loadNodesFromJSONFile(path)
 		node.handle = handle
 		node.transform = {x=v.x,y=v.y,w=v.w,h=v.h}
 		node.preload = v.preload
-		node.dialougeHandle = v.dialouge
 
 		if v.drawable ~= nil then node:setDrawable(v.drawable.type, v.drawable.data) end
 	end

@@ -19,22 +19,20 @@ function Node:setDrawable(type, data)
 end
 
 function Node:setUI(type, data)
-	if type == "button" then self.ui = Button(self) end
-	if type == "dialouge" then self.ui = Dialouge(self) end
-	if type == "fileList" then self.ui = FileList(self) end
-	if type == "menu" then self.ui = Menu(self) end
+	if type == "button" then self.ui = Button(self, data) end
+	if type == "dialouge" then self.ui = Dialouge(self, data) end
+	if type == "fileList" then self.ui = FileList(self, data) end
+	if type == "menu" then self.ui = Menu(self, data) end
 end
 
 function Node:update(dt)
 	if self.ui ~= nil then self.ui:update(dt) end
 	if self.drawable ~= nil then self.drawable:update(dt) end
-	if self.hoverDrawable ~= nil and helper:contains(input.nodes_hovered, self) then self.hoverDrawable:update(dt) end
 end
 
 function Node:draw()
 	if self.ui ~= nil then self.ui:draw() end
 	if self.drawable ~= nil then self.drawable:draw() end
-	if self.hoverDrawable ~= nil and helper:contains(input.nodes_hovered, self)  then self.hoverDrawable:draw() end
 end
 
 function Node:mousepressed(x, y, button, istouch)

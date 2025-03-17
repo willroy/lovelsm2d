@@ -24,6 +24,19 @@ function Globals:init(canvas)
 	self.canvas = canvas or love.graphics.newCanvas(self.config.windowSize.w, self.config.windowSize.h, self.canvas_settings)
 end
 
+function Globals:getFromString(str)
+	local strSplit = helper:mysplit(str, ".")
+	local value = nil
+
+	if strSplit[2] == "trackers" then value = globals.trackers[strSplit[3]] end
+	if strSplit[2] == "config" then value = globals.config[strSplit[3]] end
+	if strSplit[2] == "data" then value = globals.data[strSplit[3]] end
+
+	if type(value) == "table" then value = value[strSplit[4]] end
+
+	return value
+end
+
 function Globals:checkKeyBinds(key, key_pressed)
 	if self.keybinds[key] == nil then
 		return false

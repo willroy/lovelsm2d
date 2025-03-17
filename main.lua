@@ -39,6 +39,10 @@ function Lovelsm2d:wheelmoved(x, y)
 	engine:wheelmoved(x, y)
 end
 
+function Lovelsm2d:resize(w, h)
+  engine:resize(w, h)
+end
+
 function Lovelsm2d:quit()
 	engine:quit()
 	return false

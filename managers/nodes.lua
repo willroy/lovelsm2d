@@ -82,7 +82,7 @@ end
 function Nodes:loadNodesFromJSONFile(path)
 	local nodeDataPath = globals.config.pathNodes
 	local data = helper:readFile(path)
-	local tag = Tag()
+	local tags = Tags()
 
 	for k, v in pairs(data) do
 		self.nodes[#self.nodes+1] = Node()
@@ -91,12 +91,14 @@ function Nodes:loadNodesFromJSONFile(path)
 		local handle = string.sub(path, #nodeDataPath+2, #path-5).."/"..v.handle:gsub("%/", "-")
 		local groupHandle = string.sub(path, #nodeDataPath+2, #path-5).."/"..v.groupHandle:gsub("%/", "-")
 
-		node.interactable = tag:check(v.interactable)
-		node.zIndex = tag:check(v.zIndex)
-		node.groupHandle = tag:check(groupHandle)
-		node.handle = tag:check(handle)
-		node.transform = {x=tag:check(v.x),y=tag:check(v.y),w=tag:check(v.w),h=tag:check(v.h)}
-		node.preload = tag:check(v.preload)
+		node.interactable = tags:check(v.interactable, "interactable")
+		node.zIndex = tags:check(v.zIndex, "zIndex")
+		node.groupHandle = tags:check(groupHandle, "groupHandle")
+		node.handle = tags:check(handle, "handle")
+		node.transform = {x=tags:check(v.x, "transform.x"),y=tags:check(v.y, "transform.y"),w=tags:check(v.w, "transform.w"),h=tags:check(v.h, "transform.h")}
+		node.preload = tags:check(v.preload, "preload")
+
+		if #tags.tags > 0 then node.tags = tags.tags end
 
 		if v.drawable ~= nil then node:setDrawable(v.drawable.type, v.drawable.data) end
 		if v.ui ~= nil then node:setUI(v.ui.type, v.ui.data) end

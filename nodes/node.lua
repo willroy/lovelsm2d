@@ -10,6 +10,8 @@ function Node:init()
 	self.ui = nil
 	self.drawable = nil
 	self.text = nil
+
+	self.tags = {}
 end
 
 function Node:setDrawable(type, data)
@@ -26,6 +28,10 @@ function Node:setUI(type, data)
 	if type == "menu" then self.ui = Menu(self, data) end
 end
 
+function Node:addTag(tag)
+	self.tags[#self.tags] = tag
+end
+
 function Node:setText(data)
 	data.containerTransform = self.transform
 	self.text = Text(self, data)
@@ -34,6 +40,29 @@ end
 function Node:update(dt)
 	if self.ui ~= nil then self.ui:update(dt) end
 	if self.drawable ~= nil then self.drawable:update(dt) end
+
+	for k, tag in pairs(self.tags) do
+		for k2, target in pairs(tag.targets) do
+			local globalsValue = globals:getFromString(target["globalstarget"])
+
+			if (globalsValue ~= target["value"]) then
+				local tags = Tags()
+				self:setFromString(target["target"], tags:interpreter(tag.tag))
+				target["value"] = globalsValue
+			end
+		end
+	end
+end
+
+function Node:setFromString(str, value)
+	if str == "handle" then self.handle = value end
+	if str == "groupHandle" then self.groupHandle = value end
+	if str == "transform.x" then self.transform.x = value end
+	if str == "transform.y" then self.transform.y = value end
+	if str == "transform.w" then self.transform.w = value end
+	if str == "transform.h" then self.transform.h = value end
+	if str == "zIndex" then self.zIndex = value end
+	if str == "interactable" then self.interactable = value end
 end
 
 function Node:draw()

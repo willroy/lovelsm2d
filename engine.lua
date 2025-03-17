@@ -1,5 +1,6 @@
 require("lovelsm2d/nodes/object")
 require("lovelsm2d/nodes/node")
+require("lovelsm2d/nodes/tag")
 
 require("lovelsm2d/drawables/image")
 require("lovelsm2d/drawables/animation")
@@ -17,10 +18,10 @@ require("lovelsm2d/input/input")
 
 require("lovelsm2d/util/debugInfo")
 require("lovelsm2d/util/helper")
-require("lovelsm2d/util/tag")
 
-require("lovelsm2d/nodes")
-require("lovelsm2d/globals")
+require("lovelsm2d/managers/tags")
+require("lovelsm2d/managers/nodes")
+require("lovelsm2d/managers/globals")
 
 
 Engine = Object:extend()
@@ -97,6 +98,10 @@ function Engine:keyreleased(key)
 end
 
 function Engine:wheelmoved(x, y)
+end
+
+function Engine:resize(w, h)
+  globals.canvas = love.graphics.newCanvas(w, h, globals.canvas_settings)
 end
 
 function Engine:quit()

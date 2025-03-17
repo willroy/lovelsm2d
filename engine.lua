@@ -18,6 +18,7 @@ require("lovelsm2d/input/input")
 require("lovelsm2d/util/debugInfo")
 require("lovelsm2d/util/test")
 require("lovelsm2d/util/helper")
+require("lovelsm2d/util/tag")
 
 require("lovelsm2d/nodes")
 require("lovelsm2d/globals")
@@ -25,10 +26,9 @@ require("lovelsm2d/globals")
 
 Engine = Object:extend()
 
-data = nil
 helper = nil
-input = nil
 globals = nil
+input = nil
 events = nil
 debugInfo = nil
 nodes = nil
@@ -60,6 +60,8 @@ function Engine:update(dt)
 	local mouseX, mouseY = love.mouse.getPosition()
 	globals.trackers.lastMousePos.x, globals.trackers.lastMousePos.y = globals.trackers.mousePos.x, globals.trackers.mousePos.y
 	globals.trackers.mousePos.x, globals.trackers.mousePos.y = mouseX, mouseY
+	globals.trackers.currentWindowSize = love.graphics.getDimensions()
+
 	input:update(dt)
 	if events.running then events:taskHandler() end
 	

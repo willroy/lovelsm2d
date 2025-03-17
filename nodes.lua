@@ -22,7 +22,7 @@ end
 function Nodes:unloadNodeGroup(groupHandle)
 	local newLoadedNodes = {}
 	for n = 1, #self.loadedNodes do
-		if self.loadedNodes[n].groupHandle ~= nil and self.loadedNodes[n].groupHandle == groupHandle then
+		if self.loadedNodes[n].groupHandle == nil or self.loadedNodes[n].groupHandle ~= groupHandle then
 			newLoadedNodes[#newLoadedNodes+1] = self.loadedNodes[n]
 		end
 	end
@@ -42,7 +42,7 @@ end
 function Nodes:unloadNode(handle)
 	local newLoadedNodes = {}
 	for n = 1, #self.loadedNodes do
-		if self.loadedNodes[n].handle ~= nil and self.loadedNodes[n].handle == handle then
+		if self.loadedNodes[n].handle == nil and self.loadedNodes[n].handle ~= handle then
 			newLoadedNodes[#newLoadedNodes+1] = self.loadedNodes[n]
 		end
 	end
@@ -82,6 +82,7 @@ end
 function Nodes:loadNodesFromJSONFile(path)
 	local nodeDataPath = globals.config.pathNodes
 	local data = helper:readFile(path)
+	local tag = Tag()
 
 	for k, v in pairs(data) do
 		self.nodes[#self.nodes+1] = Node()
@@ -90,12 +91,12 @@ function Nodes:loadNodesFromJSONFile(path)
 		local handle = string.sub(path, #nodeDataPath+2, #path-5).."/"..v.handle:gsub("%/", "-")
 		local groupHandle = string.sub(path, #nodeDataPath+2, #path-5).."/"..v.groupHandle:gsub("%/", "-")
 
-		node.interactable = v.interactable
-		node.zIndex = v.zIndex
-		node.groupHandle = groupHandle
-		node.handle = handle
-		node.transform = {x=v.x,y=v.y,w=v.w,h=v.h}
-		node.preload = v.preload
+		node.interactable = tag:check(v.interactable)
+		node.zIndex = tag:check(v.zIndex)
+		node.groupHandle = tag:check(groupHandle)
+		node.handle = tag:check(handle)
+		node.transform = {x=tag:check(v.x),y=tag:check(v.y),w=tag:check(v.w),h=tag:check(v.h)}
+		node.preload = tag:check(v.preload)
 
 		if v.drawable ~= nil then node:setDrawable(v.drawable.type, v.drawable.data) end
 		if v.ui ~= nil then node:setUI(v.ui.type, v.ui.data) end

@@ -9,7 +9,7 @@ end
 
 function Tag:interpreter(input)
 	tag = input:match("££(.*)%$%$")
-	tokens = Helper:mysplit(tag, " ")
+	tokens = helper:mysplit(tag, " ")
 
 	local result = nil
 	local values = {}
@@ -22,7 +22,7 @@ function Tag:interpreter(input)
 		elseif v == "-" then
 			subtracting = true
 		elseif string.sub(v, 1, 7) == "globals" then
-			local target = Helper:mysplit(v, ".")
+			local target = helper:mysplit(v, ".")
 			local value = nil
 
 			if target[2] == "trackers" then value = globals.trackers[target[3]] end
@@ -38,11 +38,6 @@ function Tag:interpreter(input)
 			elseif #values == 1 then values[2] = v end
 		end
 	end
-
-	print(values[1])
-	print(values[2])
-	print(adding)
-	print(subtracting)
 
 	if #values == 1 then result = values[1] end
 	if #values == 2 and adding then result = values[1] + values[2] end

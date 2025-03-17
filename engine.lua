@@ -16,7 +16,6 @@ require("lovelsm2d/input/events")
 require("lovelsm2d/input/input")
 
 require("lovelsm2d/util/debugInfo")
-require("lovelsm2d/util/test")
 require("lovelsm2d/util/helper")
 require("lovelsm2d/util/tag")
 
@@ -40,6 +39,8 @@ function Engine:init()
 	events = Events()
 	debugInfo = DebugInfo()
 	nodes = Nodes()
+
+	-- run unit tests - `find . -name "*.lua" | entr lua lovelsm2d/util/test.lua -v`
 
 	love.window.setTitle("template-love2d")
 	love.window.setMode(globals.config.windowSize.w, globals.config.windowSize.h, {vsync=globals.config.windowVsync, resizable=globals.config.windowResizable})

@@ -2,6 +2,10 @@ local json = require('cjson')
 
 Helper = Object:extend()
 
+function Helper:init(dir)
+  self.workingDirectory = dir or love.filesystem.getWorkingDirectory()
+end
+
 function Helper:helloWorld()
 	print("Hello World!")
 end
@@ -68,8 +72,8 @@ end
 
 function Helper:fileExists(path)
   local readPath = ""
-  if path:find("^/") then readPath = love.filesystem.getWorkingDirectory()..path
-  else readPath = love.filesystem.getWorkingDirectory().."/"..path end
+  if path:find("^/") then readPath = self.workingDirectory..path
+  else readPath = self.workingDirectory.."/"..path end
    local file = io.open(readPath, "r")
    if file ~= nil then io.close(file) return true else return false end
   return data
@@ -77,15 +81,15 @@ end
 
 function Helper:getAbsolutePath(path)
   local readPath = ""
-  if path:find("^/") then readPath = love.filesystem.getWorkingDirectory()..path
-  else readPath = love.filesystem.getWorkingDirectory().."/"..path end
+  if path:find("^/") then readPath = self.workingDirectory..path
+  else readPath = self.workingDirectory.."/"..path end
   return readPath
 end
 
 function Helper:readFile(path)
   local readPath = ""
-  if path:find("^/") then readPath = love.filesystem.getWorkingDirectory()..path
-  else readPath = love.filesystem.getWorkingDirectory().."/"..path end
+  if path:find("^/") then readPath = self.workingDirectory..path
+  else readPath = self.workingDirectory.."/"..path end
   local data = {}
   local f = assert(io.open(readPath, "rb"))
     local content = f:read("*all")
@@ -95,8 +99,8 @@ end
 
 function Helper:readKeyInFile(path, key)
   local readPath = ""
-  if path:find("^/") then readPath = love.filesystem.getWorkingDirectory()..path
-  else readPath = love.filesystem.getWorkingDirectory().."/"..path end
+  if path:find("^/") then readPath = self.workingDirectory..path
+  else readPath = self.workingDirectory.."/"..path end
   local data = {}
   local f = assert(io.open(readPath, "rb"))
     local content = f:read("*all")

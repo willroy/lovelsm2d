@@ -1,6 +1,6 @@
 Globals = Object:extend()
 
-function Globals:init()
+function Globals:init(canvas)
 	local pathGlobals = helper:readKeyInFile("lovelsm2d/defaultConfig.json", "pathConfig")
 	if helper:fileExists(pathGlobals) == false then pathGlobals = "lovelsm2d/defaultConfig.json" end
 	self.config = helper:readFile(pathGlobals)
@@ -21,7 +21,7 @@ function Globals:init()
 
 	self.canvas_settings = {}
 
-	self.canvas = love.graphics.newCanvas(self.config.windowSize.w, self.config.windowSize.h, self.canvas_settings)
+	self.canvas = canvas or love.graphics.newCanvas(self.config.windowSize.w, self.config.windowSize.h, self.canvas_settings)
 end
 
 function Globals:checkKeyBinds(key, key_pressed)

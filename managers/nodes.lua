@@ -82,10 +82,10 @@ end
 function Nodes:loadNodesFromJSONFile(path)
 	local nodeDataPath = globals.config.pathNodes
 	local data = helper:readFile(path)
-	local tags = Tags()
 
 	for k, v in pairs(data) do
 		self.nodes[#self.nodes+1] = Node()
+		local tags = Tags()
 
 		local node = self.nodes[#self.nodes]
 		local handle = string.sub(path, #nodeDataPath+2, #path-5).."/"..v.handle:gsub("%/", "-")

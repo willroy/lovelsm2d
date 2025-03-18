@@ -62,7 +62,8 @@ function Engine:update(dt)
 	local mouseX, mouseY = love.mouse.getPosition()
 	globals.trackers.lastMousePos.x, globals.trackers.lastMousePos.y = globals.trackers.mousePos.x, globals.trackers.mousePos.y
 	globals.trackers.mousePos.x, globals.trackers.mousePos.y = mouseX, mouseY
-	globals.trackers.currentWindowSize = love.graphics.getDimensions()
+	globals.trackers.currentWindowSize.w = love.graphics.getWidth()
+	globals.trackers.currentWindowSize.h = love.graphics.getHeight()
 
 	input:update(dt)
 	if events.running then events:taskHandler() end

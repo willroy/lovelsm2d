@@ -41,13 +41,17 @@ function Node:update(dt)
 	if self.ui ~= nil then self.ui:update(dt) end
 	if self.drawable ~= nil then self.drawable:update(dt) end
 
+	self:checkForTagChanges()
+end
+
+function Node:checkForTagChanges()
 	for k, tag in pairs(self.tags) do
 		for k2, target in pairs(tag.targets) do
 			local globalsValue = globals:getFromString(target["globalstarget"])
-
 			if (globalsValue ~= target["value"]) then
 				local tags = Tags()
-				self:setFromString(target["target"], tags:interpreter(tag.tag))
+				local result, targets = tags:interpreter(tag.tag)
+				self:setFromString(target["target"], result)
 				target["value"] = globalsValue
 			end
 		end

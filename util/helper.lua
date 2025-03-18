@@ -124,12 +124,12 @@ function Helper:findFileRecursivelyByExt(dir, ext)
 end
 
 function Helper:scanDir(dir)
-    local i, t, popen = 0, {}, io.popen
-    local pfile = popen('ls -a "'..dir..'"')
-    for filename in pfile:lines() do
-        i = i + 1
-        t[i] = filename
-    end
-    pfile:close()
-    return t
+  local i, t, popen = 0, {}, io.popen
+  local pfile = popen('ls -a "'..dir..'"')
+  for filename in pfile:lines() do
+    i = i + 1
+    t[i] = filename
+  end
+  pfile:close()
+  return t
 end

@@ -16,7 +16,7 @@ function Button:init(node, data)
 	self.event = data.event
 
 	if data.text ~= nil then
-		data.text.containerTransform = self.node.transform
+		data.text.transform = self.node.transform
 		self.text = Text(self.node, data.text)
 	end
 end

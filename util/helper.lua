@@ -68,6 +68,22 @@ function Helper:selectionSort(tableToSort, reverse)
   return tableSorted
 end
 
+function Helper:tableDeepCopy(orig)
+    local orig_type = type(orig)
+    local copy
+    if orig_type == 'table' then
+      copy = {}
+      for orig_key, orig_value in next, orig, nil do
+        copy[self:tableDeepCopy(orig_key)] = self:tableDeepCopy(orig_value)
+      end
+      setmetatable(copy, self:tableDeepCopy(getmetatable(orig)))
+    else
+      copy = orig
+    end
+    return copy
+end
+
+
 -- file helper functions
 
 function Helper:fileExists(path)

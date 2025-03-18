@@ -8,7 +8,7 @@ function Dialouge:init(node, data)
 	self.dialouge = {}
 	self.step = 1
 
-	self.text = Text(self.node, {containerTransform = self.node.transform, text = data.text, positioning="center"})
+	self.text = Text(self.node, {transform = self.node.transform, text = data.text, positioning="center"})
 end
 
 function Dialouge:update(dt)

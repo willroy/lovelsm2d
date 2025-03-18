@@ -33,7 +33,7 @@ function Node:addTag(tag)
 end
 
 function Node:setText(data)
-	data.containerTransform = self.transform
+	data.transform = self.transform
 	self.text = Text(self, data)
 end
 

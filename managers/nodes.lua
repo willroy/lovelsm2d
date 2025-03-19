@@ -89,7 +89,7 @@ function Nodes:loadNodesFromJSONFile(path)
 
 		local node = self.nodes[#self.nodes]
 		local handle = string.sub(path, #nodeDataPath+2, #path-5).."/"..v.handle:gsub("%/", "-")
-		local groupHandle = string.sub(path, #nodeDataPath+2, #path-5).."/"..v.groupHandle:gsub("%/", "-")
+		local groupHandle = v.groupHandle
 
 		node.interactable = tags:check(v.interactable, "interactable")
 		node.zIndex = tags:check(v.zIndex, "zIndex")

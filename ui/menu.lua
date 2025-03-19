@@ -13,12 +13,14 @@ function Menu:init(node, data)
 	for k, submenu in pairs(data.submenus) do
 		submenu.label.transform.y = self.node.transform.y + submenu.drawable.data.transform.h * k
 		submenu.drawable.data.transform.y = self.node.transform.y + submenu.drawable.data.transform.h * k
-		submenu.hoverdrawable.data.transform.y = self.node.transform.y + submenu.hoverdrawable.data.transform.h * k
+		submenu.hoverdrawable.data.transform.y = self.node.transform.y + submenu.drawable.data.transform.h * k
+		submenu.overrideHoverCheck = true
 
 		local text = Text(self.node, submenu.label)
 		local button = Button(self.node, submenu)
+		local event = submenu.event
 
-		self.submenus[#self.submenus+1] = { label = text, button = button }
+		self.submenus[#self.submenus+1] = { label = text, button = button, event = event }
 	end
 
 	if data.submenubackground.drawable.type == "image" then self.submenubackground = Image(self.node, data.submenubackground.drawable.data) end
@@ -30,6 +32,21 @@ function Menu:init(node, data)
 end
 
 function Menu:update(dt)
+	if helper:contains(input.nodes_hovered, self.node) then
+		local mousePos = globals.trackers.mousePos
+		local relativeYInMenu = mousePos.y - self.node.transform.y
+
+		for k, submenu in pairs(self.submenus) do
+			local subMenuTransform = submenu.button.drawable.transform
+			submenu.button.hovered = false
+			if relativeYInMenu > subMenuTransform.y and relativeYInMenu < ( subMenuTransform.y + subMenuTransform.h ) then
+				submenu.button.hovered = true
+				if helper:contains(input.nodes_clicked, self.node) and submenu.event ~= nil then
+					events:runEvent(events:findEvent(submenu.event))
+				end
+			end
+		end
+	end
 end
 
 function Menu:draw()

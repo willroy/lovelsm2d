@@ -9,6 +9,11 @@ function Events:init()
 	else
 		for k, item in pairs(helper:findFileRecursivelyByExt(globals.config.pathEvents, ".json")) do
 			for k, v in pairs(helper:readFile(item)) do
+				if v.handle ~= nil then
+					local length = #".json"
+					local path = string.sub(item, #globals.config.pathEvents+2, #item-length)
+					v.handle = path.."/"..v.handle
+				end 
 				self.events[#self.events+1] = v
 			end
 		end
@@ -43,6 +48,15 @@ function Events:trigger_keyPressed(key)
 		local triggerPassed = helper:mysplit(event.trigger, " ")[1] == "press" and globals:checkKeyBinds(helper:mysplit(event.trigger, " ")[2], key)
 		if triggerPassed then self:runEvent(event) end
 		if self.triggered or self.running then break end
+	end
+end
+
+function Events:findEvent(handle)
+	if handle == nil or handle == "" then return end
+	for k, event in pairs(self.events) do
+		if event.handle == handle then
+			return event
+		end
 	end
 end
 

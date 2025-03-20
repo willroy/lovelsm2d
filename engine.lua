@@ -33,6 +33,8 @@ events = nil
 debugInfo = nil
 nodes = nil
 
+customUIs = {}
+
 function Engine:init()
 	helper = Helper()
 	globals = Globals()

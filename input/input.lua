@@ -8,6 +8,7 @@ function Input:init()
 	self.interactable_nodes_clicked = {}
 	self.interactable_nodes_hovered = {}
 	self.dialougeMode = false
+	self.mouseDown = false
 end
 
 function Input:update(dt)
@@ -33,6 +34,7 @@ function Input:update(dt)
 end
 
 function Input:mousepressed(x, y, button, istouch)
+	self.mouseDown = true
 	for n = 1, #nodes.loadedNodes do
 		local node = nodes.loadedNodes[n]
 		local interactable = node ~= nil and ( node.interactable and ( ( not self.dialougeMode ) or ( self.dialougeMode and node.type == "dialouge" ) ) )
@@ -49,6 +51,7 @@ function Input:mousepressed(x, y, button, istouch)
 end
 
 function Input:mousereleased(x, y, button, istouch)
+	self.mouseDown = false
 	if #self.interactable_nodes_hovered > 0 then love.mouse.setCursor(helper:getCursor(globals.config.cursorPoint)) end
 	self.nodes_clicked = {}
 	events.triggered = false

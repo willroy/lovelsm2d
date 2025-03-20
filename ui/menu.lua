@@ -1,6 +1,7 @@
 Menu = Object:extend()
 
 function Menu:init(node, data)
+	if node == nil or data == nil then return end
 	self.node = node
 
 	local text = Text(self.node, data.menu.label)
@@ -71,4 +72,7 @@ function Menu:draw()
 end
 
 function Menu:mousepressed(x, y, button, istouch)
+end
+
+function Menu:wheelmoved(x, y)
 end

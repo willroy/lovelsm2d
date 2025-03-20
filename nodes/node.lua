@@ -15,17 +15,13 @@ function Node:init()
 end
 
 function Node:setDrawable(type, data)
-	if type == "image" then self.drawable = Image(self, data) end
-	if type == "animation" then self.drawable = Animation(self, data) end
-	if type == "spritesheet" then self.drawable = Spritesheet(self, data) end
-	if type == "shape" then self.drawable = Shape(self, data) end
+	self.drawable = helper:objectCopy(nodes.drawables[type])
+	self.drawable:init(self, data)
 end
 
 function Node:setUI(type, data)
-	if type == "button" then self.ui = Button(self, data) end
-	if type == "dialouge" then self.ui = Dialouge(self, data) end
-	if type == "fileList" then self.ui = FileList(self, data) end
-	if type == "menu" then self.ui = Menu(self, data) end
+	self.ui = helper:objectCopy(nodes.uis[type])
+	self.ui:init(self, data)
 end
 
 function Node:addTag(tag)
@@ -77,4 +73,8 @@ end
 
 function Node:mousepressed(x, y, button, istouch)
 	if self.ui ~= nil then self.ui:mousepressed(x, y, button, istouch) end
+end
+
+function Node:wheelmoved(x, y)
+	if self.ui ~= nil then self.ui:wheelmoved(x, y) end
 end

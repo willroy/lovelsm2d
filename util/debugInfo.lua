@@ -23,7 +23,7 @@ function DebugInfo:draw()
 	self.width.current = 0
 
 	local mousePos = globals.trackers.mousePos
-	local windowSize = globals.trackers.currentWindowSize
+	local windowSize = globals.trackers.windowSize
 	local cursorSize = globals.config.cursorSize
 	if mousePos.x < ( windowSize.w / 2 ) and mousePos.y < ( windowSize.h / 2 ) then self.mouseCorner = "top-left" end
 	if mousePos.x < ( windowSize.w / 2 ) and mousePos.y > ( windowSize.h / 2 ) then self.mouseCorner = "bottom-left" end

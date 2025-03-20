@@ -1,6 +1,7 @@
 FileList = Object:extend()
 
 function FileList:init(node, data)
+	if node == nil or data == nil then return end
 	self.node = node
 
 	self.path = data.path or love.filesystem.getSaveDirectory()
@@ -24,4 +25,7 @@ function FileList:draw()
 end
 
 function FileList:mousepressed(x, y, button, istouch)
+end
+
+function FileList:wheelmoved(x, y)
 end

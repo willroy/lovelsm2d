@@ -1,6 +1,7 @@
 Text = Object:extend()
 
 function Text:init(node, data)
+	if node == nil or data == nil then return end
 	self.text = data.text
 	self.font = data.font or love.graphics.getFont()
 	self.transform = data.transform or { x = 0, y = 0, w = 0, h = 0 }

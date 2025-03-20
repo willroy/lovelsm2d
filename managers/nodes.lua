@@ -3,6 +3,9 @@ Nodes = Object:extend()
 function Nodes:init()
 	self.nodes = {}
 	self.loadedNodes = {}
+
+	self.uis = {button = Button(), dialouge = Dialouge(), fileList = FileList(), menu = Menu(), tilesheetPalette = TilesheetPalette()}
+	self.drawables = {animation = Animation(), image = Image(), shape = Shape(), spritesheet = Spritesheet(), text = Text()}
 end
 
 function Nodes:addNode(node)

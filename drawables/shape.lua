@@ -3,6 +3,7 @@
 Shape = Object:extend()
 
 function Shape:init(node, data)
+	if node == nil or data == nil then return end
 	self.node = node
 	self.type = data.type
 	self.mode = data.mode

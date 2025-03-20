@@ -1,6 +1,7 @@
 Dialouge = Object:extend()
 
 function Dialouge:init(node, data)
+	if node == nil or data == nil then return end
 	self.node = node
 
 	self.dialougeHandle = ""
@@ -41,4 +42,7 @@ function Dialouge:mousepressed(x, y, button, istouch)
 	else
 		self.text.text = self.dialouge[self.step]
 	end
+end
+
+function Dialouge:wheelmoved(x, y)
 end

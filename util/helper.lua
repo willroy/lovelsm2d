@@ -84,6 +84,25 @@ function Helper:tableDeepCopy(orig)
     return copy
 end
 
+function Helper:objectCopy(o, seen)
+  seen = seen or {}
+  if o == nil then return nil end
+  if seen[o] then return seen[o] end
+
+  local no
+  if type(o) == 'table' then
+    no = {}
+    seen[o] = no
+
+    for k, v in next, o, nil do
+      no[self:objectCopy(k, seen)] = self:objectCopy(v, seen)
+    end
+    setmetatable(no, self:objectCopy(getmetatable(o), seen))
+  else -- number, string, boolean, etc
+    no = o
+  end
+  return no
+end
 
 -- file helper functions
 
@@ -144,9 +163,22 @@ function Helper:scanDir(dir)
   local i, t, popen = 0, {}, io.popen
   local pfile = popen('ls -a "'..dir..'"')
   for filename in pfile:lines() do
-    i = i + 1
-    t[i] = filename
+    if filename ~= "." and filename ~= ".." then 
+      i = i + 1
+      t[i] = filename
+    end
   end
   pfile:close()
   return t
+end
+
+function Helper:getFilesInDir(path)
+  local dir = helper:scanDir(path)
+  local files = {}
+
+  for k, file in pairs(dir) do
+    files[#files+1] = file
+  end
+
+  return files
 end

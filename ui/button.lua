@@ -1,6 +1,7 @@
 Button = Object:extend()
 
 function Button:init(node, data)
+	if node == nil or data == nil then return end
 	self.node = node
 
 	if data.drawable.type == "image" then self.drawable = Image(self.node, data.drawable.data) end
@@ -40,4 +41,7 @@ function Button:draw()
 end
 
 function Button:mousepressed(x, y, button, istouch)
+end
+
+function Button:wheelmoved(x, y)
 end

@@ -62,8 +62,8 @@ function Engine:update(dt)
 	local mouseX, mouseY = love.mouse.getPosition()
 	globals.trackers.lastMousePos.x, globals.trackers.lastMousePos.y = globals.trackers.mousePos.x, globals.trackers.mousePos.y
 	globals.trackers.mousePos.x, globals.trackers.mousePos.y = mouseX, mouseY
-	globals.trackers.currentWindowSize.w = love.graphics.getWidth()
-	globals.trackers.currentWindowSize.h = love.graphics.getHeight()
+	globals.trackers.windowSize.w = love.graphics.getWidth()
+	globals.trackers.windowSize.h = love.graphics.getHeight()
 
 	input:update(dt)
 	if events.running then events:taskHandler() end
@@ -72,7 +72,7 @@ function Engine:update(dt)
 end
 
 function Engine:draw()
-	love.graphics.setCanvas(globals.canvas)
+	love.graphics.setCanvas({globals.canvas, stencil=true})
 	love.graphics.clear(0,0,0,0)
 	love.graphics.setColor(1,1,1,1)
 	love.graphics.push()
@@ -84,6 +84,7 @@ end
 
 function Engine:mousepressed(x, y, button, istouch)
 	input:mousepressed(x, y, button, istouch)
+	for n = 1, #nodes.loadedNodes do nodes.loadedNodes[n]:mousepressed(x, y, button, istouch) end
 end
 
 function Engine:mousereleased(x, y, button, istouch)
@@ -99,6 +100,7 @@ function Engine:keyreleased(key)
 end
 
 function Engine:wheelmoved(x, y)
+	for n = 1, #nodes.loadedNodes do nodes.loadedNodes[n]:wheelmoved(x, y) end
 end
 
 function Engine:resize(w, h)

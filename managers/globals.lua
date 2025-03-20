@@ -16,7 +16,7 @@ function Globals:init(canvas)
 	self.trackers = {
 		lastMousePos = { x = 0, y = 0 },
 		mousePos = { x = 0, y = 0 },
-		currentWindowSize = self.config.windowSize
+		windowSize = self.config.windowSize
 	}
 
 	self.canvas_settings = {}

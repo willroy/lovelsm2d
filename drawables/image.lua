@@ -3,6 +3,7 @@
 Image = Object:extend()
 
 function Image:init(node, data)
+	if node == nil or data == nil then return end
 	self.node = node
 	self.path = data.path
 	local assetsFolder = globals.config.pathAssets

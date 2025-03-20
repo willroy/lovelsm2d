@@ -3,6 +3,7 @@
 Animation = Object:extend()
 
 function Animation:init(node, data)
+	if node == nil or data == nil then return end
 	self.node = node
 	self.path = data.path
 	local assetsFolder = globals.config.pathAssets

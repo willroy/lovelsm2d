@@ -74,5 +74,8 @@ end
 function Menu:mousepressed(x, y, button, istouch)
 end
 
+function Menu:mousereleased(x, y, button, istouch)
+end
+
 function Menu:wheelmoved(x, y)
 end

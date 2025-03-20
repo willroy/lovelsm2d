@@ -75,6 +75,10 @@ function Node:mousepressed(x, y, button, istouch)
 	if self.ui ~= nil then self.ui:mousepressed(x, y, button, istouch) end
 end
 
+function Node:mousereleased(x, y, button, istouch)
+	if self.ui ~= nil then self.ui:mousereleased(x, y, button, istouch) end
+end
+
 function Node:wheelmoved(x, y)
 	if self.ui ~= nil then self.ui:wheelmoved(x, y) end
 end

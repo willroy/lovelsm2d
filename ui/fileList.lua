@@ -27,5 +27,8 @@ end
 function FileList:mousepressed(x, y, button, istouch)
 end
 
+function FileList:mousereleased(x, y, button, istouch)
+end
+
 function FileList:wheelmoved(x, y)
 end

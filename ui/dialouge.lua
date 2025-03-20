@@ -44,5 +44,8 @@ function Dialouge:mousepressed(x, y, button, istouch)
 	end
 end
 
+function Dialouge:mousereleased(x, y, button, istouch)
+end
+
 function Dialouge:wheelmoved(x, y)
 end

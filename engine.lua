@@ -89,6 +89,7 @@ end
 
 function Engine:mousereleased(x, y, button, istouch)
 	input:mousereleased(x, y, button, istouch)
+	for n = 1, #nodes.loadedNodes do nodes.loadedNodes[n]:mousereleased(x, y, button, istouch) end
 end
 
 function Engine:keypressed(key, code)

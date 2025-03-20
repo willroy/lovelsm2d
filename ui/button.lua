@@ -43,5 +43,8 @@ end
 function Button:mousepressed(x, y, button, istouch)
 end
 
+function Button:mousereleased(x, y, button, istouch)
+end
+
 function Button:wheelmoved(x, y)
 end

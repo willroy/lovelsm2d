@@ -72,11 +72,11 @@ function Node:draw()
 end
 
 function Node:mousepressed(x, y, button, istouch)
-	if self.ui ~= nil then self.ui:mousepressed(x, y, button, istouch) end
+	if self.ui ~= nil then if self.ui:mousepressed(x, y, button, istouch) == "abort" then return "abort" end end
 end
 
 function Node:mousereleased(x, y, button, istouch)
-	if self.ui ~= nil then self.ui:mousereleased(x, y, button, istouch) end
+	if self.ui ~= nil then if self.ui:mousereleased(x, y, button, istouch) == "abort" then return "abort" end  end
 end
 
 function Node:wheelmoved(x, y)

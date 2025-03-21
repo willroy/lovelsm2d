@@ -5,9 +5,6 @@ function Nodes:init()
 	self.loadedNodes = {}
 
 	self.uis = {button = Button(), dialouge = Dialouge(), fileList = FileList(), menu = Menu()}
-	for k, v in pairs(customUIs) do
-		self.uis[k] = v
-	end
 	self.drawables = {animation = Animation(), image = Image(), shape = Shape(), spritesheet = Spritesheet(), text = Text()}
 end
 

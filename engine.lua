@@ -54,7 +54,9 @@ function Engine:init()
 	love.mouse.setCursor(helper:getCursor(globals.config.cursorArrow))
 
 	nodes:init()
+end
 
+function Engine:loadNodes()
 	nodes:loadNodes()
 end
 
@@ -86,12 +88,12 @@ end
 
 function Engine:mousepressed(x, y, button, istouch)
 	input:mousepressed(x, y, button, istouch)
-	for n = 1, #nodes.loadedNodes do nodes.loadedNodes[n]:mousepressed(x, y, button, istouch) end
+	for n = 1, #nodes.loadedNodes do if nodes.loadedNodes[n]:mousepressed(x, y, button, istouch) == "abort" then break end end
 end
 
 function Engine:mousereleased(x, y, button, istouch)
 	input:mousereleased(x, y, button, istouch)
-	for n = 1, #nodes.loadedNodes do nodes.loadedNodes[n]:mousereleased(x, y, button, istouch) end
+	for n = 1, #nodes.loadedNodes do if nodes.loadedNodes[n]:mousereleased(x, y, button, istouch) == "abort" then break end end
 end
 
 function Engine:keypressed(key, code)

@@ -39,12 +39,15 @@ function Tags:interpreter(tag)
 	local values = {}
 	local adding = false
 	local subtracting = false
+	local dividing = false
 
 	for k, v in pairs(tokens) do
 		if v == "+" then
 			adding = true
 		elseif v == "-" then
 			subtracting = true
+		elseif v == "/" then
+			dividing = true
 		elseif string.sub(v, 1, 7) == "globals" then
 			local target = helper:mysplit(v, ".")
 			local value = globals:getFromString(v)
@@ -62,6 +65,7 @@ function Tags:interpreter(tag)
 	if #values == 1 then result = values[1] end
 	if #values == 2 and adding then result = values[1] + values[2] end
 	if #values == 2 and subtracting then result = values[1] - values[2] end
+	if #values == 2 and dividing then result = values[1] / values[2] end
 
 	return result, targets
 end

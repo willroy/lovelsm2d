@@ -10,6 +10,10 @@ function Lovelsm2d:init()
 	engine:init()
 end
 
+function Lovelsm2d:loadNodes()
+	engine:loadNodes()
+end
+
 function Lovelsm2d:update(dt)
 	engine:update(dt)
 end

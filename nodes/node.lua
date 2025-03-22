@@ -29,6 +29,8 @@ function Node:addTag(tag)
 end
 
 function Node:setText(data)
+	local tags = Tags()
+	data.text = tags:check(data.text)
 	data.transform = self.transform
 	self.text = Text(self, data)
 end

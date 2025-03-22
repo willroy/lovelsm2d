@@ -122,14 +122,17 @@ function Helper:getAbsolutePath(path)
   return readPath
 end
 
-function Helper:readFile(path)
+function Helper:readFile(path, isjson)
+  local decode = true
+  if isjson ~= nil then decode = isjson end
   local readPath = ""
   if path:find("^/") then readPath = self.workingDirectory..path
   else readPath = self.workingDirectory.."/"..path end
   local data = {}
   local f = assert(io.open(readPath, "rb"))
-    local content = f:read("*all")
-  data = json.decode(content)
+  local content = f:read("*all")
+  if decode then data = json.decode(content)
+  else data = content end
   return data
 end
 

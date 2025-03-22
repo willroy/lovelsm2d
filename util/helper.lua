@@ -162,6 +162,10 @@ function Helper:findFileRecursivelyByExt(dir, ext)
   return files
 end
 
+function Helper:decodeJson(content)
+  return json.decode(content)
+end
+
 function Helper:scanDir(dir)
   local i, t, popen = 0, {}, io.popen
   local pfile = popen('ls -a "'..dir..'"')

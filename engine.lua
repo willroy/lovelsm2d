@@ -13,13 +13,12 @@ require("lovelsm2d/ui/button")
 require("lovelsm2d/ui/fileList")
 require("lovelsm2d/ui/menu")
 
-require("lovelsm2d/input/events")
-require("lovelsm2d/input/input")
-
 require("lovelsm2d/util/debugInfo")
 require("lovelsm2d/util/helper")
+require("lovelsm2d/util/tags")
 
-require("lovelsm2d/managers/tags")
+require("lovelsm2d/managers/events")
+require("lovelsm2d/managers/input")
 require("lovelsm2d/managers/nodes")
 require("lovelsm2d/managers/globals")
 

@@ -12,7 +12,7 @@ function Menu:init(node, data)
 	self.submenus = {}
 
 	for k, submenu in pairs(data.submenus) do
-		submenu.label.transform.y = self.node.transform.y + submenu.drawable.data.transform.h * k
+		submenu.label.transform.y = submenu.label.transform.y + self.node.transform.y + submenu.drawable.data.transform.h * k
 		submenu.drawable.data.transform.y = self.node.transform.y + submenu.drawable.data.transform.h * k
 		submenu.hoverdrawable.data.transform.y = self.node.transform.y + submenu.drawable.data.transform.h * k
 		submenu.overrideHoverCheck = true

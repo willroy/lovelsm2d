@@ -162,6 +162,19 @@ function Helper:findFileRecursivelyByExt(dir, ext)
   return files
 end
 
+function Helper:writeFile(path, content)
+  local file = io.open(path, "w")
+
+  if file then
+    local contents = json.encode(content)
+    file:write( contents )
+    io.close( file )
+    return true
+  else
+    return false
+  end
+end
+
 function Helper:decodeJson(content)
   return json.decode(content)
 end

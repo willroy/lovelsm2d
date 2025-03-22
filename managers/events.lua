@@ -132,6 +132,7 @@ function Events:runTask()
 	if taskType == "loadNodeGroup" then self:task_loadNodeGroup() end
 	if taskType == "unloadNode" then self:task_unloadNode() end
 	if taskType == "unloadNodeGroup" then self:task_unloadNodeGroup() end
+	if taskType == "function" then self:task_runFunction() end
 	if taskType == "quit" then love.event.quit() end
 end
 
@@ -186,6 +187,15 @@ function Events:task_unloadNodeGroup()
 	local handle = helper:mysplit(task, " ")[2]
 
 	nodes:unloadNodeGroup(handle)
+
+	self.tasks[self.taski].initialized = true
+	self.tasks[self.taski].continue = true
+end
+function Events:task_runFunction()
+	local task = self.tasks[self.taski].task
+	local functionName = helper:mysplit(task, " ")[2]
+
+	_G[functionName]()
 
 	self.tasks[self.taski].initialized = true
 	self.tasks[self.taski].continue = true

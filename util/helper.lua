@@ -4,6 +4,7 @@ Helper = Object:extend()
 
 function Helper:init(dir)
   self.workingDirectory = dir or love.filesystem.getWorkingDirectory()
+  self.saveDirectory = love.filesystem.getSaveDirectory()
 end
 
 function Helper:helloWorld()
@@ -128,6 +129,20 @@ function Helper:readFile(path, isjson)
   local readPath = ""
   if path:find("^/") then readPath = self.workingDirectory..path
   else readPath = self.workingDirectory.."/"..path end
+  local data = {}
+  local f = assert(io.open(readPath, "rb"))
+  local content = f:read("*all")
+  if decode then data = json.decode(content)
+  else data = content end
+  return data
+end
+
+function Helper:readSaveFile(path, isjson)
+  local decode = true
+  if isjson ~= nil then decode = isjson end
+  local readPath = ""
+  if path:find("^/") then readPath = self.saveDirectory..path
+  else readPath = self.saveDirectory.."/"..path end
   local data = {}
   local f = assert(io.open(readPath, "rb"))
   local content = f:read("*all")

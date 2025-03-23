@@ -73,6 +73,15 @@ function Nodes:isNodeLoaded(nodeHandle)
 	return false
 end
 
+function Nodes:getNode(nodeHandle)
+	for k, node in pairs(self.nodes) do
+		if node.handle == nodeHandle then
+			return node
+		end
+	end
+	return nil
+end
+
 function Nodes:isNodeGroupLoaded(nodeHandle)
 	for k, node in pairs(self.loadedNodes) do
 		if node.groupHandle == nodeHandle then

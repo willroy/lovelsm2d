@@ -49,7 +49,7 @@ function Engine:init()
 
 	love.graphics.setBackgroundColor(globals.config.windowBackColour.r, globals.config.windowBackColour.g, globals.config.windowBackColour.b)
 	love.graphics.setFont(helper:getFont(globals.config.windowFont))
-	love.graphics.setDefaultFilter("linear", "linear")
+	love.graphics.setDefaultFilter("nearest", "nearest")
 	love.mouse.setCursor(helper:getCursor(globals.config.cursorArrow))
 
 	nodes:init()

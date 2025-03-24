@@ -18,7 +18,7 @@ function Text:draw()
 		local containerCenter = { x = self.transform.w / 2 + self.transform.x, y = self.transform.h / 2 + self.transform.y }
 		local x = ( containerCenter.x - ( self.font:getWidth(self.text) / 2 ) )
 		local y = ( containerCenter.y - ( self.font:getHeight(self.text) / 2 ) )
-		love.graphics.print(self.text, x, y)
+		love.graphics.print(self.text, math.floor(x), math.floor(y))
 	end
 	love.graphics.setColor(1,1,1,1)
 end

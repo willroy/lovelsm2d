@@ -1,16 +1,16 @@
 Globals = Object:extend()
 
 function Globals:init(canvas)
-	local pathGlobals = helper:readKeyInFile("lovelsm2d/defaultConfig.json", "pathConfig")
-	if not helper:fileExists(pathGlobals) then pathGlobals = "lovelsm2d/defaultConfig.json" end
+	local pathGlobals = helper:readKeyInFile("lovelsm2d/default_config.json", "pathConfig")
+	if not helper:fileExists(pathGlobals) then pathGlobals = "lovelsm2d/default_config.json" end
 	self.config = helper:readFile(pathGlobals)
 
 	local pathKeybinds = self.config.pathKeybinds
-	if not helper:fileExists(pathKeybinds) then pathKeybinds = "lovelsm2d/defaultKeybinds.json" end
+	if not helper:fileExists(pathKeybinds) then pathKeybinds = "lovelsm2d/default_keybinds.json" end
 	self.keybinds = helper:readFile(pathKeybinds)
 
 	local pathData = self.config.pathData
-	if not helper:fileExists(pathData) then pathData = "lovelsm2d/defaultData.json" end
+	if not helper:fileExists(pathData) then pathData = "lovelsm2d/default_data.json" end
 	self.data = helper:readFile(pathData)
 
 	self.trackers = {

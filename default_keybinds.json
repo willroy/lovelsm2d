@@ -1,4 +1,5 @@
 {
+{
 	"quit": ["escape", "backspace"],
 	"debug": [";"]
 }

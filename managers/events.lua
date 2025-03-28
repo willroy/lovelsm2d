@@ -133,6 +133,7 @@ function Events:runTask()
 	if taskType == "unloadNode" then self:task_unloadNode() end
 	if taskType == "unloadNodeGroup" then self:task_unloadNodeGroup() end
 	if taskType == "function" then self:task_runFunction() end
+	if taskType == "url" then self:task_runOpenURL() end
 	if taskType == "quit" then love.event.quit() end
 end
 
@@ -191,11 +192,22 @@ function Events:task_unloadNodeGroup()
 	self.tasks[self.taski].initialized = true
 	self.tasks[self.taski].continue = true
 end
+
 function Events:task_runFunction()
 	local task = self.tasks[self.taski].task
 	local functionName = helper:mysplit(task, " ")[2]
 
 	_G[functionName]()
+
+	self.tasks[self.taski].initialized = true
+	self.tasks[self.taski].continue = true
+end
+
+function Events:task_runOpenURL()
+	local task = self.tasks[self.taski].task
+	local url = helper:mysplit(task, " ")[2]
+
+	love.system.openURL( url )
 
 	self.tasks[self.taski].initialized = true
 	self.tasks[self.taski].continue = true

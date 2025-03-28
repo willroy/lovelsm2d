@@ -7,7 +7,7 @@ function Menu:init(node, data)
 	local text = Text(self.node, data.menu.label)
 	local button = Button(self.node, data.menu)
 
-	self.menu = { label = text, button = button } 
+	self.menu = { label = text, button = button, event = data.menu.event} 
 
 	self.submenus = {}
 
@@ -36,6 +36,12 @@ function Menu:update(dt)
 	if helper:contains(input.nodes_hovered, self.node) then
 		local mousePos = globals.trackers.mousePos
 		local relativeYInMenu = mousePos.y - self.node.transform.y
+
+		if relativeYInMenu < self.menu.button.drawable.transform.h then
+			if helper:contains(input.nodes_clicked, self.node) and self.menu.event ~= nil then
+				events:runEvent(events:findEvent(self.menu.event))
+			end
+		end
 
 		for k, submenu in pairs(self.submenus) do
 			local subMenuTransform = submenu.button.drawable.transform

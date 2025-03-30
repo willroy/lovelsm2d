@@ -127,6 +127,7 @@ function Events:runTask()
 	local taskType = helper:mysplit(task, " ")[1]
 
 	if taskType == "globals" then self:task_runGlobals() end
+	if taskType == "globalsData" then self:task_runGlobalsData() end
 	if taskType == "print" then self:task_runPrint() end
 	if taskType == "loadNode" then self:task_loadNode() end
 	if taskType == "loadNodeGroup" then self:task_loadNodeGroup() end
@@ -142,6 +143,21 @@ function Events:task_runGlobals()
 	local variable = helper:mysplit(task, " ")[2]
 	local newValue = helper:mysplit(task, " ")[3]
 	globals.config[variable] = newValue
+	self.tasks[self.taski].initialized = true
+	self.tasks[self.taski].continue = true
+end
+
+function Events:task_runGlobalsData()
+	local task = self.tasks[self.taski].task
+	local variable = helper:mysplit(task, " ")[2]
+	local newValue = helper:mysplit(task, " ")[3]
+	if newValue == "££increment$$" then
+		globals.data[variable] = globals.data[variable] + 1
+	elseif newValue == "££decrement$$" then
+		globals.data[variable] = globals.data[variable] - 1
+	else
+		globals.data[variable] = newValue
+	end
 	self.tasks[self.taski].initialized = true
 	self.tasks[self.taski].continue = true
 end

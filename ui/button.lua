@@ -17,7 +17,7 @@ function Button:init(node, data)
 	self.event = data.event
 
 	if data.text ~= nil then
-		data.text.transform = self.node.transform
+		data.text.transform = data.text.transform or self.node.transform
 		self.text = Text(self.node, data.text)
 	end
 
@@ -34,13 +34,18 @@ end
 
 function Button:draw()
 	if self.hovered ~= true and not self.overrideHoverCheck then self.hovered = helper:contains(input.nodes_hovered, self.node) end
-	if self.text ~= nil then self.text:draw() end
 	if self.hoverdrawable ~= nil and self.hovered then self.hoverdrawable:draw()
 	elseif self.drawable ~= nil then self.drawable:draw() end
+	if self.text ~= nil then self.text:draw() end
 	self.hovered = false
 end
 
 function Button:mousepressed(x, y, button, istouch)
+	if self.hovered ~= true and not self.overrideHoverCheck then self.hovered = helper:contains(input.nodes_hovered, self.node) end
+	if self.hovered and self.event ~= nil and self.event ~= "" then
+		local event = events:findEvent(self.event)
+		if event ~= nil then events:runEvent(event) end
+	end
 end
 
 function Button:mousereleased(x, y, button, istouch)

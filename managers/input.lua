@@ -9,6 +9,7 @@ function Input:init()
 	self.interactable_nodes_hovered = {}
 	self.dialougeMode = false
 	self.mouseDown = { status = false, button = 1 }
+	self.keysPressed = {}
 end
 
 function Input:update(dt)
@@ -61,8 +62,22 @@ function Input:keypressed(key, code)
 	if globals:checkKeyBinds("quit", key) then love.event.quit() end
 	if globals:checkKeyBinds("debug", key) then debugInfo.debugEnabled = not debugInfo.debugEnabled end
 	events:trigger_keyPressed(key)
+	self.keysPressed[key] = true
 end
 
 function Input:keyreleased(key)
+	self.keysPressed[key] = false
+end
 
+function Input:isKeyDown(key)
+	local pressed = false
+
+	for k, v in pairs(self.keysPressed) do
+		if v then
+			pressed = globals:checkKeyBinds(key, k)
+			if pressed then break end
+		end
+	end
+
+	return pressed
 end

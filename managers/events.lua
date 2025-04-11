@@ -74,12 +74,13 @@ end
 -- Condition Handling
 
 function Events:checkConditions(event)
-
 	if event.conditions == nil or #event.conditions == 0 then return true end
 
 	local conditionsPassed = 0
 
 	for k, condition in pairs(event.conditions) do
+		local tags = Tags()
+		condition = tags:check(condition)
 		local conditionTokens = helper:mysplit(condition, " ")
 		local condition = conditionTokens[1]
 		local target = conditionTokens[2]
@@ -102,12 +103,12 @@ function Events:variableCondition(conditionTokens)
 	local conditionTarget = conditionTokens[2]
 	local conditionValue = conditionTokens[3]
 
-	local value = globals.config[conditionTarget]
+	local value = globals:getFromString(conditionTarget)
 
 	if conditionValue == "true" then conditionValue = true end
 	if conditionValue == "false" then conditionValue = false end
 
-	return value == conditionValue
+	return tostring(value) == tostring(conditionValue)
 end
 
 -- Task Handling
@@ -149,15 +150,19 @@ end
 
 function Events:task_runGlobalsData()
 	local task = self.tasks[self.taski].task
-	local variable = helper:mysplit(task, " ")[2]
+	local variable = helper:mysplit(helper:mysplit(task, " ")[2], ".")
 	local newValue = helper:mysplit(task, " ")[3]
-	if newValue == "££increment$$" then
-		globals.data[variable] = globals.data[variable] + 1
-	elseif newValue == "££decrement$$" then
-		globals.data[variable] = globals.data[variable] - 1
-	else
-		globals.data[variable] = newValue
-	end
+
+	var = nil
+	if #variable == 1 then var = globals.data[variable[1]] end
+	if #variable == 2 then var = globals.data[variable[1]][variable[2]] end
+
+	if newValue == "££increment$$" then newValue = var + 1
+	elseif newValue == "££decrement$$" then newValue = var - 1 end
+
+	if #variable == 1 then globals.data[variable[1]] = newValue end
+	if #variable == 2 then globals.data[variable[1]][variable[2]] = newValue end
+
 	self.tasks[self.taski].initialized = true
 	self.tasks[self.taski].continue = true
 end

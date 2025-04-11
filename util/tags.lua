@@ -15,12 +15,25 @@ function Tags:createTag(input, nodeTarget)
 	local tag = nil
 	local staticTag = ( input:match("££(.*)%$%$") ~= nil )
 	local dynamicTag = ( input:match("££(.*)^^") ~= nil )
+	local tagIndexes = {}
 
-	if staticTag then tag = input:match("££(.*)%$%$") end
-	if dynamicTag then tag = input:match("££(.*)^^") end
+	if staticTag then
+		tag = input:match("££(.-)%$%$")
+		tagIndexes.start, tagIndexes.finish = string.find(input, input:match("££.-%$%$"), 1, true)
+	end
+	if dynamicTag then
+		tag = input:match("££(.-)^^")
+		tagIndexes.start, tagIndexes.finish = string.find(input, input:match("££.*^^"), 1, true)
+	end
 	if tag == nil then return input end
 
 	local result, targets = self:interpreter(tag)
+
+	local start = string.sub(input, 1, tagIndexes.start-1)
+	local middle = result
+	local finish = string.sub(input, tagIndexes.finish+1, #input)
+
+	result = start..middle..finish
 
 	for k, v in pairs(targets) do
 		v["target"] = nodeTarget
@@ -40,32 +53,48 @@ function Tags:interpreter(tag)
 	local adding = false
 	local subtracting = false
 	local dividing = false
+	local multiplying = false
 
 	for k, v in pairs(tokens) do
-		if v == "+" then
-			adding = true
-		elseif v == "-" then
-			subtracting = true
-		elseif v == "/" then
-			dividing = true
+		if v == "+"     then adding = true
+		elseif v == "-" then subtracting = true
+		elseif v == "/" then dividing = true
+		elseif v == "*" then multiplying = true
 		elseif string.sub(v, 1, 7) == "globals" then
 			local target = helper:mysplit(v, ".")
 			local value = globals:getFromString(v)
-
 			targets[#targets+1] = {["globalstarget"] = v, ["value"] = value}
-
-			if #values == 0 then values[1] = value
-			elseif #values == 1 then values[2] = value end
+			values[#values+1] = value
 		else
-			if #values == 0 then values[1] = v
-			elseif #values == 1 then values[2] = v end
+			values[#values+1] = v
+		end
+
+		local calculation = nil
+		if #values > 1 and adding then calculation = values[#values-1] + values[#values] end
+		if #values > 1 and subtracting then calculation = values[#values-1] - values[#values] end
+		if #values > 1 and dividing then calculation = values[#values-1] / values[#values] end
+		if #values > 1 and multiplying then calculation = values[#values-1] * values[#values] end
+
+		if calculation ~= nil then
+			values[#values-1] = calculation
+			table.remove(values, #values)
+			adding = false
+			subtracting = false
+			dividing = false
+			multiplying = false
 		end
 	end
+	
+	for k, v in pairs(values) do
+		if result == nil then result = "" end
+		result = result .. " " .. v
+	end
 
-	if #values == 1 then result = values[1] end
-	if #values == 2 and adding then result = values[1] + values[2] end
-	if #values == 2 and subtracting then result = values[1] - values[2] end
-	if #values == 2 and dividing then result = values[1] / values[2] end
+	result = helper:trim(result)
+
+	result = tonumber(result) or result
+	if result == "true" then result = true end
+	if result == "false" then result = false end
 
 	return result, targets
 end

@@ -30,6 +30,10 @@ function Helper:mysplit(inputstr, sep)
   return t
 end
 
+function Helper:trim(str)
+  return (str:gsub("^%s*(.-)%s*$", "%1"))
+end
+
 function Helper:slice(tbl, first, last, step)
   local sliced = {}
 
